@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Fitness Gym</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="icon" href="logo.jfif">
+  <link rel="stylesheet" type="text/css" href="css/mdb.min.css">
+  <link href="css/datepicker.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/login.css">
+  <link rel="stylesheet" type="text/css" href="css/animate.min.css">
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.min.css" />
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="os-icon/css/osfont.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <img class="wave" src="image/wave.png">
+  <div class="container">
+    <div class="img  animated fadeInLeft slow">
+      <img src="image/gym.svg">
+    </div>
+    <div class="login-content animated fadeIn slow">
+      <form class="login-form" autocomplete="off">
+        <!-- <img src="image/avatar.svg"> -->
+        <img src="image/logo.png" data-tilt="" data-tilt-scale="1.05">
+        <div class="row">
+          <div class="col-12">
+            <span class="login-form-title"></span>
+          </div>
+          <div class="col-sm-12 col-lg-12">
+            <div class="form-outline form-group">
+              <i class="pre-icon os-icon os-icon-user" data-toggle="tooltip" title="Login Id"></i>
+              <input type="text" class="form-control" id="login_id" name="login_id" required>
+              <label class="form-label" for="login_id">Login Id</label>
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+          <div class="col-sm-12 col-lg-12">
+            <div class="form-outline form-group">
+              <i class="pre-icon os-icon os-icon-fingerprint" data-toggle="tooltip" title="Password"></i>
+              <input type="password" id="password" name="password" class="form-control" required/>
+              <label class="form-label" for="password">Password</label>
+              <div class="help-block with-errors"></div>
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="container-login-form-btn">
+              <button class="btn login-form-btn">Login</button>
+            </div>
+          </div>
+        </div>
+        <div class="tel text-center mt-4">copyright @ Techify</div>
+        <div id="alert" class="alert d-none" role="alert"></div>
+      </form>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/mdb.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="js/vanilla-tilt.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+
+<!-- handle events -->
+<script type="text/javascript" src="js/_login.js"></script>
+
+</html>

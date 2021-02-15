@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Medical History Data</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" type="text/css" href="css/mdb.min.css">
+  <link href="css/datepicker.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="css/sidebar.css">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="css/osfont.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/render.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div id="p-menu"></div>
+
+    <div class="content-i">
+      <!-- header -->
+      <div id="p-header"></div>
+
+      <div id="content">
+        <div class="container-sm item-center">
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<!-- jquery load script -->
+<script>
+  $("#p-header").load("./_partials/header.html", function () { $(this).children(':first').unwrap(); });
+  $("#p-menu").load("./_partials/menu.html", function () { $(this).children(':first').unwrap(); });
+  function pageActive () {
+    $("#page-name").text("Profile");
+    $('#profile').addClass('active');
+  }
+</script>
+
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/auth.js?v=2"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/mdb.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="js/render-converter.js"></script>
+<script src="js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.min.js"></script>
+<script src="js/validator.min.js"></script>
+
+</html>

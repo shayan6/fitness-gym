@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Fitness Gym</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" type="text/css" href="css/mdb.min.css">
+  <link href="css/datepicker.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="css/sidebar.css">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="css/osfont.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css" />
+  <link rel="stylesheet" href="css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/render.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div id="p-menu"></div>
+
+    <div class="content-i">
+      <!-- header -->
+      <div id="p-header"></div>
+
+      <div id="content">
+        <div class="container-sm">
+          <div class="thead">
+            <div class="row justify-content-md-center" id="row-thead">
+              <div class="col-4 col-sm-4">
+                <h4 class="mb-1">Gymboy List</h4>
+                <h6 class="m-0" id="thead-status"></h6>
+              </div>
+              <div class="col-8 col-sm-8">
+                <div class="pull-right">
+                  <a href="#" id="bulk-assign-trainer-btn" class="btn btn-outline-success"> <i
+                      class="fa fa-motorcycle"></i> <b class="d-none d-sm-inline-block ml-1"> Trainer </b></a>
+                  <a href="#" id="refresh-list" class="btn btn-outline-warning ml-2"> <i class="icon-refresh"></i> <b
+                      class="d-none d-sm-inline-block ml-1"> Refresh </b></a>
+                  <a href="#" id="filter-btn" class="btn btn-outline-secondary ml-2"> <i class="fa fa-filter"></i> <b
+                      class="d-none d-sm-inline-block ml-1"> Filter </b></a>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div id="filter-table">
+              <div class="row mb-4 pb-4">
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <i class="pre-icon icon-calendar" data-toggle="tooltip" title="Dated"></i>
+                    <input class="form-control" placeholder="Joining Date *" name="dated" id="dated" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <i class="pre-icon icon-list" data-toggle="tooltip" title="No of Delivery Show"></i>
+                    <select class="form-control" id="filter-limit">
+                      <option value="50" selected>50</option>
+                      <option value="100">100</option>
+                      <option value="150">150</option>
+                      <option value="200">200</option>
+                      <option value="250">250</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <i class="pre-icon icon-magnifier" data-toggle="tooltip" title="Search"></i>
+                    <input type="text" class="form-control" placeholder="Search" id="filter-search">
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <i class="pre-icon icon-directions" data-toggle="tooltip" title="Sort"></i>
+                    <select class="form-select" id="filter-sort" name="filter-sort">
+                      <option value="1">Sort By Newest</option>
+                      <option value="0">Sort By Oldest</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tbody" id="tbody">
+            <!-- table body render here -->
+          </div>
+          <hr class="m-0">
+          <div class="tfoot p-3" id="tfoot">
+            <div class="page-desc">
+              Showing 10 entries
+            </div>
+            <div class="page-btn text-right">
+              <a href="#" class="btn btn-white mb-1" id="previous">  <i class="icon-arrow-left mr-1"></i> Prev</a>
+              <a href="javascript:void(0)" class="btn btn-primary mb-1" id="pageNo">1</a>
+              <a href="#" class="btn btn-white mb-1" id="next">Next <i class="icon-arrow-right ml-1"></i> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<script id="tbodyTmpl" type="text/html">
+	<div class="row origin-row" key="{{:orderId}}">
+	  <div class="col col-6 col-sm-6 col-lg-3">
+        <img class="img-desc" src="image/profiles/avatar.png" />
+        <div class="user-desc ms-1">
+            <p class="row-name" >{{:name}}</p>
+            <p class="row-address" >{{:address}}</p>
+        </div>
+	  </div>
+	  <div class="col col-6 col-sm-6 col-lg-1 c-end">
+      <p class="show-profileModal">
+        {{isPresent:is_active}}
+      </p>
+    </div>
+	  <div class="col col-6 col-sm-6 col-lg c-start">
+      <p class="row-phone text-center"><i class="m-2 i-desc icon-screen-smartphone warning"></i>{{:mobile_number}}</p>
+	  </div>
+	  <div class="col col-6 col-sm-6 col-lg c-end">
+      <p class="row-restaurant text-center"><i class="m-2 i-desc os-icon os-icon-calendar primary"></i>{{format:joining_date}}</p>
+	  </div>
+	  <div class="col col-6 col-sm-6 col-lg c-start pr-0">
+		  <p class="row-area text-center"><i class="m-2 i-desc os-icon os-icon-coins-4 warning"></i>{{currency:fee}}</p>
+	  </div>
+	  <div class="col col-6 col-sm-6 col-lg c-end">
+		  <p class="row-order text-center"><i class="m-2 i-desc icon-user primary"></i>{{:weight}}</p>
+    </div>
+    
+	  <div class="col-end col-12">
+      <p class="row-info-bottom"><i class="me-2 icon-plus"></i>{{fromNow:created}}</p>
+      <p class="row-info-bottom d-none d-sm-block"><i class="me-2 icon-envelope"></i>{{:email}}</p>
+      <p class="row-info-bottom">{{:gender}}</p>
+
+      <!-- Split dropright button -->
+      <div class="btn-group dropright mb-2" style="pointer:disabled" id="{{:orderNumber}}" key="{{:orderId}}">
+        <button type="button" class="btn btn-sm btn-danger rider p-1 pe-3 ps-3 stop" style="text-transform: inherit;">
+          Trainer
+        </button>
+        <button type="button" class="btn btn-sm btn-secondary p-0 pl-1 pr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="icon-settings m-1"></i>
+        </button>
+
+        <div class="dropdown-menu" id="{{:orderNumber}}" key="{{:orderId}}">
+          <a class="dropdown-item edit_delivery" href="./edit_delivery.html?order={{:orderNumber}}"><i class="icon-pencil mr-2"></i> Edit</a>
+          <a class="dropdown-item show-rescheduleModal" href="#"><i class="icon-refresh mr-2"></i> Reshedule</a>
+          <a class="dropdown-item  show-profileModal" href="#"><i class="icon-doc mr-2"></i> View In Detail</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item danger show-deletePopup" href="#"><i class="fa fa-trash-o mr-2"></i> Delete</a>
+        </div>
+      
+      </div>
+      <!-- Split dropright button -->    
+    </div>
+	</div>
+</script>
+
+<!-- jquery load script -->
+<script>
+  $("#p-header").load("./_partials/header.html", function () { $(this).children(':first').unwrap(); });
+  $("#p-menu").load("./_partials/menu.html", function () { $(this).children(':first').unwrap(); });
+  function pageActive() {
+    $("#page-name").text("Gymboy List");
+    $('#gymboy_list').addClass('active');
+  }
+</script>
+
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/auth.js?v=2"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/mdb.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="js/render-converter.js"></script>
+<script src="js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.min.js"></script>
+<script src="js/validator.min.js"></script>
+<script src="js/sweetalert2.min.js"></script>
+
+
+<script>
+  $(document).ready(() => {
+
+    // list-medical-record ###############################################
+    function processOnChange() {
+      let sort = $('#filter-sort').val();
+      let take = $('#filter-limit').val();
+      let skip = (+$('#pageNo').text() - 1) * +take;
+
+      $.get(`${baseURL}/gymboy-list/${sort}/${skip}/${take}/${token}`, function (data) {
+        data = data.row
+        $("#tbody").html($("#tbodyTmpl").render(data)); // render tmplt
+        $('.page-desc').html(`Showing ${data.length} Entries`);
+      });
+    }
+    
+    // initial run #######################################################
+    processOnChange();
+  });
+</script>
+
+</html>

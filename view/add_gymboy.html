@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Fitness Gym</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" type="text/css" href="css/mdb.min.css">
+  <link href="css/datepicker.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="css/sidebar.css">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="css/osfont.min.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css" />
+  <link rel="stylesheet" href="css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/render.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+
+</head>
+<style>
+  .modal-header, .modal-body, .modal-footer {
+    border: 1px solid #dee2e6;
+  }
+</style>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div id="p-menu"></div>
+
+    <div class="content-i">
+      <!-- header -->
+      <div id="p-header"></div>
+
+      <div id="content">
+        <div class="container-sm item-center">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add New Gymboy</h5>
+            </div>
+            <div class="modal-body">
+              <form id="form-gymboy" enctype="multipart/form-data" autocomplete="off">
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon os-icon os-icon-user me-3" data-toggle="tooltip" title="Name"></i>
+                      <input type="text" class="form-control" id="name" name="name" required>
+                      <label class="form-label required" for="name">Name</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon os-icon os-icon-user me-3" data-toggle="tooltip" title="Father Name"></i>
+                      <input type="text" class="form-control" id="father_name" name="father_name">
+                      <label class="form-label" for="father_name">Father Name</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon icon-screen-smartphone" data-toggle="tooltip" title="Mobile Number"></i>
+                      <input class="form-control" id="mobile_number" isNumber name="mobile_number" minlength="7" required oninput="this.value=this.value.replace(/\D/g,'')">
+                      <label class="form-label required" for="mobile_number">Mobile Number</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Joining Date"></i>
+                      <input class="form-control datetime active" id="joining_date" name="joining_date" minlength="7" required>
+                      <label class="form-label required" for="joining_date">Joining Date</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Fee"></i>
+                      <input class="form-control" id="fee" isNumber name="fee" minlength="7" required oninput="this.value=this.value.replace(/\D/g,'')">
+                      <label class="form-label required" for="fee">Fee</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon icon-user" data-toggle="tooltip" title="Weight"></i>
+                      <input class="form-control" id="weight" name="weight" minlength="7" required>
+                      <label class="form-label" for="weight">Weight</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon icon-envelope" data-toggle="tooltip" title="Email"></i>
+                      <input type="email" class="form-control" id="email" name="email">
+                      <label class="form-label" for="email">Email</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <i class="pre-icon icon-cloud-upload" data-toggle="tooltip" title="Gymboy Image"></i>
+                      <div class="input-group .file-upload">
+                        <input type="text" class="form-control" placeholder="Gymboy Image" name="image">
+                        <span class="input-group-btn">
+                          <div class="custom-file-uploader">
+                            <input type="file" name="file" onchange="this.form.image.value = this.files.length ? this.files[0].name : ''">
+                          </div>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon icon-home" data-toggle="tooltip" title="Address"></i>
+                      <input type="text" class="form-control" id="address" name="address">
+                      <label class="form-label" for="address">Address</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="form-group">
+                      <i class="pre-icon icon-directions" data-toggle="tooltip" title="Gender"></i>
+                      <select class="form-select active" id="gender" name="gender">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-lg-12">
+                    <div class="form-outline form-group">
+                      <i class="pre-icon icon-pencil" data-toggle="tooltip" title="Other Details"></i>
+                      <input type="text" class="form-control" id="other_details" name="other_details">
+                      <label class="form-label" for="other_details">Other Details</label>
+                      <div class="help-block with-errors"></div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <div id="msg-view" class="alert" role="alert"></div>
+              <button type="button" class="btn btn-sm btn-danger" type="submit" onclick="$('#form-gymboy').submit()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<!-- jquery load script -->
+<script>
+  $("#p-header").load("./_partials/header.html", function () { $(this).children(':first').unwrap(); });
+  $("#p-menu").load("./_partials/menu.html", function () { $(this).children(':first').unwrap(); });
+  function pageActive () {
+    $("#page-name").text("Add Gymboy");
+    $('#add_gymboy').addClass('active');
+  }
+</script>
+
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/auth.js?v=2"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/mdb.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="js/render-converter.js"></script>
+<script src="js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.min.js"></script>
+<script src="js/validator.min.js"></script>
+<script src="js/sweetalert2.min.js"></script>
+
+
+<script>
+  
+  $(document).ready(() => {
+    
+    $('#form-gymboy').on('submit', function (e) {
+      e.preventDefault();
+
+      // submit order to rider
+      var form = $(this)[0];
+      var formData = new FormData(form);
+
+      $.ajax({
+        type: "POST",
+        url: `${baseURL}/add-gymboy`,
+        contentType: false,  // tell jQuery not to set contentType
+        processData: false,  // tell jQuery not to process the data
+        data: formData,
+        success: function (data) {
+          if (data.status) {
+            Swal.fire({ icon: 'success', title: data.message, showConfirmButton: false, timer: 1500 });
+            $('#form-gymboy').trigger("reset");
+          } else {
+            Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
+          }
+        }
+      });
+
+
+
+    });
+  });
+</script>
+
+</html>

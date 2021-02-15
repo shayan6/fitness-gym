@@ -1,0 +1,42 @@
+<nav id="sidebar" class="sidenav sidenav-primary ps">
+  <div class="sidebar-header">
+    <img src="image/profiles/avatar-primary.svg" alt="IMG">
+    <div class="sidebar-text">
+      <h5 class="m-0" id="user_name"></h5>
+      <p class="m-0" id="user_role"></p>
+    </div>
+  </div>
+
+  <ul class="list-unstyled components" id="menu-list">
+    <!-- list prepend here -->
+    <li class="sidenav-link text-danger" id="log_out" onclick="logout()">
+      <a href="javascript:void(0)"><i class="os-icon os-icon-signs-11 me-3"></i> <b>Log Out</a>
+    </li>
+  </ul>
+</nav>
+
+<script id="menu-list-tmpl" type="text/html">
+  <li class="sidenav-link {{:page}}" id="{{:page}}">
+    <a href="{{:page}}.html"><i class="{{:icon}} me-3"></i> {{:name}}</a>
+  </li>
+</script>
+
+<script>
+  $(document).ready(() => {
+    $('#user_name').text(userData.name);
+    $('#user_role').text(userData.role);
+    
+    if (localStorage.gym_menu == null) { // if no store
+      $.get(`${baseURL}/user-access/${userData.role}/${token}`, function (data) {
+        if (data.status) {
+          $('#menu-list').prepend($('#menu-list-tmpl').render(data.row));
+          localStorage.gym_menu = JSON.stringify(data.row);
+          pageActive();
+        }
+      });
+    } else {  // if already set
+      $('#menu-list').prepend($('#menu-list-tmpl').render(JSON.parse(localStorage.gym_menu)));
+      pageActive();
+    }
+  });
+</script>

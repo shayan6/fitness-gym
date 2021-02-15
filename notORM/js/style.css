@@ -1,0 +1,141 @@
+body{
+	background-color: #eeeeee; 
+}
+
+.grid{
+	height: 575px;
+	width: 600px;
+	margin: 0 auto;
+	background-color: #fff;
+	padding: 10px 50px 50px 30px;
+	border-radius: 50px;
+	border: 2px solid #cbcbcb;
+	box-shadow: 10px 15px 5px #cbcbcb;
+}
+
+.grid h2{
+	font-family: sans-serif;
+	background-color: #57636e;
+	font-size: 35px;
+	text-align: center;
+	padding: 2px 0px;
+	border-radius: 50px;
+	color: #fff;
+}
+
+.grid #question{
+	font-family: sans-serif;
+	font-size: 24px;
+	color: #5a6772;
+}
+
+.buttons{
+	margin-top: 30px;
+}
+
+
+#button1 , #button2 , #button3 , #button4  {
+	background-color: #778897;
+	vertical-align: middle;
+	width: 440px;
+	font-size: 20px;
+	color: white;
+    padding-left: 15px;
+	margin:10px 0px 10px 10px;
+	border-radius: 50px;
+	display: inline-block;
+
+}
+
+
+
+#progress {
+	font-size: 18px;
+	color: #2b2b2b;
+	display: inline-block;
+	float: right;
+}
+
+
+#button1:hover , #button2:hover , #button3:hover , #button4:hover , #nextButton:hover {
+	cursor: pointer;
+	background-color: #57636e;
+}
+
+
+#nextButton{
+	float: left;
+	background-color: #778897;
+	width: 150px;
+	font-size: 15px;
+	color: white;
+	padding: 10px 10px ;
+	margin:10px 40px 10px 0px;
+	border-radius: 50px;
+}
+
+
+
+#start{
+	margin: 30% 10%;
+	padding: 12px 0px 0px 12px;
+}
+
+
+#result{
+	border-radius:50% ; 
+	text-align: center;
+	font-size: 18px;
+	margin: 15% 17%;;
+	background-color: rgba(33, 43, 219, 0.32);
+	height: 80px;
+	width:340px;
+	padding: 20px 65px 0px 22px;
+}
+
+nav{
+	  position: absolute;
+  margin: 8% 5%;
+  font-size: 28px;
+}
+
+#friendName{
+	border-radius:20px;
+	font-size: x-large;
+	text-align: center; 
+}
+
+	
+		#reset {
+		
+		padding : 300 px;
+		margin : 300 px;
+	
+	width: 230px;
+	height: 63px;
+	background: #cde;
+	border: 2px solid #ccc;
+	border-color: #8ba2c1 #5890bf #4f93ca #768fa5;
+	font: 700 26px/1 Lucida Sans, Verdana, sans-serif;
+	color: #fff;
+	text-shadow: rgba(10, 10, 10, 0.5) 1px 2px 2px;
+	text-align: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	border-radius: 46px; -moz-border-radius: 46px; -webkit-border-radius: 46px;
+	box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
+	-moz-box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
+	-webkit-box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
+}
+
+#reset : hover {
+text-shadow: rgb(255, 255, 255) 0px 0px 5px;
+}
+		#counter{
+		 
+		 background-color:white;
+		
+		}
+	
