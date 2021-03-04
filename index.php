@@ -249,7 +249,7 @@ $app->post('/add-trainer', function (Request $req, Response $res, array $args) {
   $gender = $post['gender'];
   $other_details = $post['other_details'];
   $role = 2;
-  
+
   $sql = "INSERT INTO `user` (`name`,`father_name`, `mobile_number`, `joining_date`, `fee`, `weight`, `email`, `image`, `address`, `gender`, `other_details`, `created_at`) 
 			    VALUES ('$name', '$father_name', '$mobile_number', '$joining_date', '$fee', '$weight', '$email', '$image', '$address', '$gender', '$other_details', NOW())";
   $result = $conn->query($sql);
@@ -259,6 +259,15 @@ $app->post('/add-trainer', function (Request $req, Response $res, array $args) {
     $sql = "INSERT INTO `user_role` (`user_id`,`role_id`,`created_at`) 
     VALUES ('$last_id', '$role', NOW() )";
     $result = $conn->query($sql);
+
+    // inser shifts ####################################################
+    $a1 = $post['monday_available'] ? 1 : 0; $a2 = $post['tuesday_available'] ? 1 : 0;
+    $startTime1 = explode(";", $post['monday_interval'])[0]; $endTime1 = explode(";", $post['monday_interval'])[1];
+    $startTime2 = explode(";", $post['tuesday_interval'])[0]; $endTime2 = explode(";", $post['tuesday_interval'])[1];
+    $sql = "INSERT INTO `trainer_shift` (`trainer_id`,`title`, `is_available`, `startTime`, `endTime`) 
+    VALUES ('$last_id', 'Shift1', '$a1', '$startTime1', '$endTime1'), ('$last_id', 'Shift2', '$a2', '$startTime2', '$endTime2')";
+    $result = $conn->query($sql);
+
   } else {
     $result = false;
   }
