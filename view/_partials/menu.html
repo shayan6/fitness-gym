@@ -26,17 +26,13 @@
     $('#user_name').text(userData.name);
     $('#user_role').text(userData.role);
     
-    if (localStorage.gym_menu == null) { // if no store
-      $.get(`${baseURL}/user-access/${userData.role}/${token}`, function (data) {
-        if (data.status) {
-          $('#menu-list').prepend($('#menu-list-tmpl').render(data.row));
-          localStorage.gym_menu = JSON.stringify(data.row);
-          pageActive();
-        }
-      });
-    } else {  // if already set
-      $('#menu-list').prepend($('#menu-list-tmpl').render(JSON.parse(localStorage.gym_menu)));
-      pageActive();
-    }
+    // create menu
+    $.get(`${baseURL}/user-access/${userData.role}/${token}`, function (data) {
+      if (data.status) {
+        $('#menu-list').prepend($('#menu-list-tmpl').render(data.row));
+        localStorage.gym_menu = JSON.stringify(data.row);
+        pageActive();
+      }
+    });
   });
 </script>

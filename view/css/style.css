@@ -96,6 +96,18 @@ h3 {
   padding-left: 10px;
 }
 
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.bold {
+  font-weight: 700;
+}
+
 /* loginc css */
 .auth-box-w {
   max-width: 450px;

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Medical History Data</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" type="text/css" href="css/mdb.min.css">
+  <link href="css/datepicker.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="css/sidebar.css">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="css/osfont.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/render.min.js"></script>
+  <script type="text/javascript" src="js/moment.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+
+</head>
+
+<style>
+  .table-bordered thead td,
+  .table-bordered thead th {
+    color: #1266f1;
+    background-color: #f6f9fc;
+    font-size: 1rem;
+  }
+  .table-bordered td, .table-bordered th {
+    padding: .3rem;
+  }
+  .table-striped>tbody>tr:nth-of-type(odd) {
+    --bs-table-accent-bg: rgb(255 255 255);
+  }
+</style>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div id="p-menu"></div>
+
+    <div class="content-i">
+      <!-- header -->
+      <div id="p-header"></div>
+
+      <div id="content">
+        <div class="container-sm">
+          <div class="thead">
+            <div class="row justify-content-md-center" id="row-thead">
+              <div class="col-4 col-sm-4">
+                <h4 class="mb-1">Report</h4>
+                <h6 class="m-0" id="thead-status"></h6>
+              </div>
+              <div class="col-8 col-sm-8">
+                <div class="pull-right">
+                  <a href="#" id="add-fee-btn" class="btn btn-outline-success"> <i
+                      class="os-icon os-icon-coins-4"></i> <b class="d-none d-sm-inline-block ms-1"> Add Fee </b></a>
+                  <a href="#" id="refresh-list" class="btn btn-outline-warning ms-2"> <i class="icon-refresh"></i> <b
+                      class="d-none d-sm-inline-block ms-1"> Refresh </b></a>
+                  <a href="#" id="filter-btn" class="btn btn-outline-secondary ms-2"> <i class="fa fa-filter"></i> <b
+                      class="d-none d-sm-inline-block ms-1"> Filter </b></a>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div id="filter-table">
+              <div class="row">
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-outline form-group">
+                    <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Payment Date"></i>
+                    <input class="form-control dated active" id="payment_date" name="payment_date" minlength="7">
+                    <label class="form-label" for="payment_date">Payment Date</label>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <i class="pre-icon icon-list" data-toggle="tooltip" title="No of Delivery Show"></i>
+                    <select class="form-control" id="filter-limit">
+                      <option value="50" selected>50</option>
+                      <option value="100">100</option>
+                      <option value="150">150</option>
+                      <option value="200">200</option>
+                      <option value="250">250</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-outline form-group">
+                    <i class="pre-icon icon-magnifier" data-toggle="tooltip" title="Search"></i>
+                    <input type="text" class="form-control" id="filter-search">
+                    <label class="form-label" for="joining_date">Search</label>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-6">
+                  <div class="form-group">
+                    <i class="pre-icon icon-directions" data-toggle="tooltip" title="Sort"></i>
+                    <select class="form-select" id="filter-sort" name="filter-sort">
+                      <option value="1">Sort By Newest</option>
+                      <option value="0">Sort By Oldest</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-sm-12 pt-4">
+              <div class="card">
+                <div class="table-responsive card-body" id="section-to-print">
+                  <!-- header print -->
+                  <table class="table table-striped table-bordered exportToCSV">
+                    <thead>
+                      <tr>
+                        <th>Gym Boy</th>
+                        <th>Mobile Number</th>
+                        <th>Payment Date</th>
+                        <th>Total Fee</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody id="tbody">
+                      <!-- render list here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="feeModal" tabindex="-1" role="dialog" aria-labelledby="feeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" style="box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Fee</h5>
+        </div>
+        <div class="modal-body">
+          <form id="form-medicine" enctype="multipart/form-data" autocomplete="off">
+            <div class="row">
+              <div class="col-sm-12 col-lg-12">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-user me-3" data-toggle="tooltip" title="Gymboy"></i>
+                  <input type="text" class="form-control" id="gymboy" name="gymboy" required>
+                  <label class="form-label required" for="gymboy">Gymboy</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Payment Date"></i>
+                  <input class="form-control datetime active" id="payment_date" name="payment_date" required>
+                  <label class="form-label required" for="payment_date">Payment Date</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Monthly Fee"></i>
+                  <input type="number" class="form-control" id="monthly_fee" name="monthly_fee">
+                  <label class="form-label" for="monthly_fee">Monthly Fee</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Trainer Fee"></i>
+                  <input type="number" class="form-control" id="trainer_fee" name="trainer_fee">
+                  <label class="form-label" for="trainer_fee">Trainer Fee</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Other Fee"></i>
+                  <input type="number" class="form-control" id="other_fee" name="other_fee">
+                  <label class="form-label" for="other_fee">Other Fee</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-12">
+                <div class="form-outline form-group">
+                  <i class="pre-icon icon-pencil" data-toggle="tooltip" title="Description"></i>
+                  <textarea class="form-control" name="description" id="description"></textarea>
+                  <label class="form-label" for="description">Description</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div id="msg-view" class="alert" role="alert"></div>
+          <button type="button" class="btn btn-sm btn-danger" type="submit"
+            onclick="$('#form-medicine').submit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<!-- jquery load script -->
+<script>
+  $("#p-header").load("./_partials/header.html", function () { $(this).children(':first').unwrap(); });
+  $("#p-menu").load("./_partials/menu.html", function () { $(this).children(':first').unwrap(); });
+  function pageActive() {
+    $("#page-name").text("Report");
+    $('#report').addClass('active');
+  }
+</script>
+
+<script type="text/javascript" src="js/auth.js?v=2"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/mdb.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="js/render-converter.js"></script>
+<script src="js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.min.js"></script>
+<script src="js/validator.min.js"></script>
+
+<script>
+  $('#add-fee-btn').on('click', function (e) {
+    $('#feeModal').modal('show');
+  });
+</script>
+
+
+</html>

@@ -20,8 +20,10 @@
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
 
+  <!-- script important on top -->
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/render.min.js"></script>
+  <script type="text/javascript" src="js/moment.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
 
 </head>
@@ -76,7 +78,7 @@
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-outline form-group">
                       <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Joining Date"></i>
-                      <input class="form-control datetime active" id="joining_date" name="joining_date" minlength="7" required>
+                      <input class="form-control datetime active" id="joining_date" name="joining_date" required>
                       <label class="form-label required" for="joining_date">Joining Date</label>
                       <div class="help-block with-errors"></div>
                     </div>
@@ -84,7 +86,7 @@
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-outline form-group">
                       <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Fee"></i>
-                      <input class="form-control" id="fee" isNumber name="fee" minlength="7" required oninput="this.value=this.value.replace(/\D/g,'')">
+                      <input class="form-control" id="fee" name="fee" required oninput="this.value=this.value.replace(/\D/g,'')">
                       <label class="form-label required" for="fee">Fee</label>
                       <div class="help-block with-errors"></div>
                     </div>
@@ -92,7 +94,7 @@
                   <div class="col-sm-12 col-lg-6">
                     <div class="form-outline form-group">
                       <i class="pre-icon icon-user" data-toggle="tooltip" title="Weight"></i>
-                      <input class="form-control" id="weight" name="weight" minlength="7" required>
+                      <input class="form-control" id="weight" name="weight" required>
                       <label class="form-label" for="weight">Weight</label>
                       <div class="help-block with-errors"></div>
                     </div>
@@ -168,7 +170,6 @@
   }
 </script>
 
-<script type="text/javascript" src="js/moment.min.js"></script>
 <script type="text/javascript" src="js/auth.js?v=2"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/popper.min.js"></script>
@@ -179,7 +180,6 @@
 <script type="text/javascript" src="js/daterangepicker.min.js"></script>
 <script src="js/validator.min.js"></script>
 <script src="js/sweetalert2.min.js"></script>
-
 
 <script>
   
@@ -207,9 +207,6 @@
           }
         }
       });
-
-
-
     });
   });
 </script>

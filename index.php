@@ -203,12 +203,118 @@ $app->post('/add-gymboy', function (Request $req, Response $res, array $args) {
   $address = $post['address'];
   $gender = $post['gender'];
   $other_details = $post['other_details'];
+  $role = 3;
+  
   
   $sql = "INSERT INTO `user` (`name`,`father_name`, `mobile_number`, `joining_date`, `fee`, `weight`, `email`, `image`, `address`, `gender`, `other_details`, `created_at`) 
 			    VALUES ('$name', '$father_name', '$mobile_number', '$joining_date', '$fee', '$weight', '$email', '$image', '$address', '$gender', '$other_details', NOW())";
   $result = $conn->query($sql);
-  $message = $result ? 'Medicine added successfully' : "<br>" . $conn->error;
+  $last_id = $conn->insert_id;
+  
+  if ($result) {
+    $sql = "INSERT INTO `user_role` (`user_id`,`role_id`,`created_at`) 
+    VALUES ('$last_id', '$role', NOW() )";
+    $result = $conn->query($sql);
+  } else {
+    $result = false;
+  }
+
+  $message = $result ? 'User added successfully' : "<br>" . $conn->error;
   $status = $result ? true : false;
+
+  return $res->withJson(array('status' => $status, 'row' => $result, 'message' => $message));
+
+});
+
+$app->post('/add-trainer', function (Request $req, Response $res, array $args) {
+	require_once('api/database.php');
+  $directory = $this->get('upload_directory');
+  $post = $req->getParsedBody();
+  $files = $req->getUploadedFiles();
+  $file = $files['file'];
+  // $image = file_get_contents($files['image']->file);
+  $image = '';
+	if ($file->getError() === UPLOAD_ERR_OK) {
+    $image = moveFile($directory, $file);
+  }
+
+  $name = $post['name'];
+  $father_name = $post['father_name'];
+  $mobile_number = $post['mobile_number'];
+  $joining_date = date('Y-m-d', strtotime($post['joining_date']));
+  $fee = $post['fee'];
+  $weight = $post['weight'];
+  $email = $post['email'];
+  $address = $post['address'];
+  $gender = $post['gender'];
+  $other_details = $post['other_details'];
+  $role = 2;
+  
+  $sql = "INSERT INTO `user` (`name`,`father_name`, `mobile_number`, `joining_date`, `fee`, `weight`, `email`, `image`, `address`, `gender`, `other_details`, `created_at`) 
+			    VALUES ('$name', '$father_name', '$mobile_number', '$joining_date', '$fee', '$weight', '$email', '$image', '$address', '$gender', '$other_details', NOW())";
+  $result = $conn->query($sql);
+  $last_id = $conn->insert_id;
+  
+  if ($result) {
+    $sql = "INSERT INTO `user_role` (`user_id`,`role_id`,`created_at`) 
+    VALUES ('$last_id', '$role', NOW() )";
+    $result = $conn->query($sql);
+  } else {
+    $result = false;
+  }
+  
+  $message = $result ? 'User added successfully' : "<br>" . $conn->error;
+  $status = $result ? true : false;
+
+  return $res->withJson(array('status' => $status, 'row' => $result, 'message' => $message));
+
+});
+
+
+$app->post('/assign-trainer', function (Request $req, Response $res, array $args) {
+  require_once('api/database.php');
+  $directory = $this->get('upload_directory');
+  $post = $req->getParsedBody();
+
+  $gymboy_id = $post['gymboy_id'];
+  $trainer_id = $post['trainer_id'];
+  $trainer_fee = $post['trainer_fee'];
+
+
+  $result = $conn->query("SELECT id FROM trainer_gymboy WHERE gymboy_id ='$gymboy_id'");
+
+  if ($result && $result->num_rows > 0) {
+    $sql = "UPDATE `trainer_gymboy` 
+            SET `gymboy_id` = '$gymboy_id'
+              , `trainer_id` = '$trainer_id'
+              , `trainer_fee` = '$trainer_fee'
+              , `modified_at` = NOW()
+            WHERE `gymboy_id` = '$gymboy_id'";
+  } else {
+    $sql = "INSERT INTO `trainer_gymboy` (`trainer_id`, `gymboy_id`, `trainer_fee`, `created_at`) 
+            VALUES ('$trainer_id', '$gymboy_id', '$trainer_fee', NOW())";
+  }
+
+  $result = $conn->query($sql) ? array('Last Id' => $conn->insert_id) : false;
+  $status = $result ? true : false; 
+  $message = $result ? "Trainer successfully assigned to gymboy" : "<br>" . $conn->error;
+
+  return $res->withJson(array('status' => $status, 'row' => $result, 'message' => $message));
+
+});
+
+$app->post('/toggle-activation-gymboy', function (Request $req, Response $res, array $args) {
+  require_once('api/database.php');
+  $post = $req->getParsedBody();
+  $gymboy_id = $post['gymboy_id'];
+
+  $sql = "UPDATE `user` u
+          SET u.`is_active` = IF(u.`is_active` = 1, 0, 1)
+          WHERE u.`id` = '$gymboy_id'";
+
+  $result = $conn->query($sql) ? array('Last Id' => $conn->insert_id) : false;
+  $status = $result ? true : false; 
+  $message = $result ? "Gymboy Status Toggled" : "<br>" . $conn->error;
 
   return $res->withJson(array('status' => $status, 'row' => $result, 'message' => $message));
 
@@ -237,17 +343,65 @@ $app->get('/user-access/{role}/{token}', function (Request $request, Response $r
 });
 
 
-$app->get('/gymboy-list/{sort}/{skip}/{take}/{token}', function (Request $request, Response $response, array $args) {
+$app->get('/gymboy-list/{startDate}/{endDate}/{search}/{sort}/{skip}/{take}/{token}', function (Request $request, Response $response, array $args) {
 	require_once('api/database.php');
 	require('api/authentication.php');
   if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
 
+  $startDate = $args['startDate'];
+  $endDate = $args['endDate'];
+  $search = $args['search'] != 'All' ? $args['search'] : '';
 	$sort = $args['sort'] == 1 ? 'u.`joining_date` DESC' : 'u.`joining_date` ASC' ;
 	$skip = $args['skip'];
 	$take = $args['take'];
-	$rows = $db->fetch("SELECT * FROM `user` u
+	$rows = $db->fetch("SELECT 
+                             *
+                            , u.id
+                            ,(SELECT u2.name FROM user u2 WHERE u2.id = tg.trainer_id) as trainer_name 
+                      FROM `user` u
+                      LEFT JOIN user_role r ON r.user_id = u.`id`
+                      LEFT JOIN trainer_gymboy tg ON tg.gymboy_id = u.id 
+                      WHERE (u.name LIKE '$search%' OR u.father_name LIKE '$search%' OR u.weight LIKE '$search%' OR u.email LIKE '$search%' OR u.address LIKE '$search%')
+                      AND (u.joining_date BETWEEN '$startDate' AND '$endDate')
+                      AND r.role_id = 3
                       ORDER BY $sort LIMIT $skip, $take");
 	return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
+});
+
+$app->get('/trainer-list/{startDate}/{endDate}/{search}/{sort}/{skip}/{take}/{token}', function (Request $request, Response $response, array $args) {
+	require_once('api/database.php');
+	require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $startDate = $args['startDate'];
+  $endDate = $args['endDate'];
+  $search = $args['search'] != 'All' ? $args['search'] : '';
+	$sort = $args['sort'] == 1 ? 'u.`joining_date` DESC' : 'u.`joining_date` ASC' ;
+	$skip = $args['skip'];
+	$take = $args['take'];
+	$rows = $db->fetch("SELECT *, u.id  FROM `user` u
+                      LEFT JOIN user_role r ON r.user_id = u.`id` 
+                      WHERE (u.name LIKE '$search%' OR u.father_name LIKE '$search%' OR u.weight LIKE '$search%' OR u.email LIKE '$search%' OR u.address LIKE '$search%')
+                      AND (u.joining_date BETWEEN '$startDate' AND '$endDate')
+                      AND r.role_id = 2
+                      ORDER BY $sort LIMIT $skip, $take");
+	return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
+});
+
+$app->get('/trainer-by-name/{search}/{skip}/{take}/{token}', function (Request $request, Response $response, array $args) {
+  require_once('api/database.php');
+  require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $search = $args['search'] != 'All' ? $args['search'] : '';
+  $skip = $args['skip'];
+  $take = $args['take'];
+  $rows = $db->fetch("SELECT u.* FROM `user` u
+                      LEFT JOIN user_role r ON r.user_id = u.`id` 
+                      WHERE (u.name LIKE '$search%' OR u.father_name LIKE '$search%' OR u.weight LIKE '$search%' OR u.email LIKE '$search%' OR u.address LIKE '$search%')
+                      AND r.role_id = 2
+                      LIMIT $skip, $take");
+  return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
 });
 
 

@@ -41,7 +41,7 @@
           <div class="thead">
             <div class="row justify-content-md-center" id="row-thead">
               <div class="col-4 col-sm-4">
-                <h4 class="mb-1">Gymboy List</h4>
+                <h4 class="mb-1">Trainer List</h4>
                 <h6 class="m-0" id="thead-status"></h6>
               </div>
               <div class="col-8 col-sm-8">
@@ -57,20 +57,13 @@
             </div>
             <hr>
             <div id="filter-table">
-              <div class="row">
+              <div class="row mb-4 pb-4">
                 <div class="col-12 col-sm-6 col-lg-6">
                   <div class="form-outline form-group">
                     <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Joining Date"></i>
                     <input class="form-control dated active" id="joining_date" name="joining_date" minlength="7">
                     <label class="form-label" for="joining_date">Joining Date</label>
-                  </div>
-                </div>
-                <div class="col-12 col-sm-6 col-lg-4 d-none">
-                  <div class="form-outline form-group">
-                    <i class="pre-icon os-icon os-icon-zap" data-toggle="tooltip" title="Hospital"></i>
-                    <input class="form-control" name="filter-trainer" id="filter-trainer">
-                    <input type="text" name="filter-trainerId" id="filter-trainerId">
-                    <label class="form-label" for="filter-trainer">Trainer</label>
+                    <div class="help-block with-errors"></div>
                   </div>
                 </div>
                 <div class="col-12 col-sm-6 col-lg-6">
@@ -123,7 +116,6 @@
     </div>
   </div>
 
-  <!-- description empty modal to render -->
   <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -137,33 +129,26 @@
     </div>
   </div>
   
-  <div class="modal fade" id="assignTrainer" tabindex="-1" role="dialog" aria-labelledby="assignTrainerTitle"
-  aria-hidden="true">
+  <div class="modal fade" id="assignTrainer" tabindex="-1" role="dialog" aria-labelledby="assignTrainerTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">
             Assign Trainer To Gymboy <b id="gymboy_name"></b></h5>
-            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
         <div class="modal-body">
           <form action="" id="form-assignTrainer">
-            <input type="hidden" id="gymboy_id" name="gymboy_id" required>
             <div class="row">
-              <div class="col-sm-12 col-lg-6">
+              <div class="col-sm-12 col-lg-12">
                 <div class="form-outline form-group">
-                  <i class="pre-icon os-icon os-icon-user me-3" data-toggle="tooltip" title="Trainer Name"></i>
-                  <input type="text" class="form-control trainer" id="trainer_name" name="trainer_name" required>
-                  <input type="hidden" id="trainer_id" name="trainer_id" required>
-                  <label class="form-label required" for="trainer_name">Trainer Name</label>
-                  <div class="help-block with-errors"></div>
-                </div>
-              </div>
-              <div class="col-sm-12 col-lg-6">
-                <div class="form-outline form-group">
-                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Trainer Fee"></i>
-                  <input type="number" class="form-control trainer_fee" id="trainer_fee" name="trainer_fee" required>
-                  <label class="form-label required" for="trainer_fee">Trainer Fee</label>
+                  <i class="pre-icon icon-user" data-toggle="tooltip" title="Trainer"></i>
+                  <input type="text" class="form-control trainer" id="trainer" name="trainer" required>
+                  <label class="form-label required" for="trainer">Trainer</label>
+                  <input type="hidden" class="form-control" id="trainerId" name="trainerId" required>
+                  <input type="hidden" class="form-control" id="userId" name="userId" required>
                   <div class="help-block with-errors"></div>
                 </div>
               </div>
@@ -183,7 +168,6 @@
 
 </body>
 
-<!-- gymboy list -->
 <script id="tbodyTmpl" type="text/html">
 	<div class="row origin-row" key="{{:id}}">
 	  <div class="col col-6 col-sm-6 col-lg-3">
@@ -194,9 +178,7 @@
         </div>
 	  </div>
 	  <div class="col col-6 col-sm-6 col-lg-1 c-end">
-      <p class="show-profileModal">
-        {{isPresent:is_active}}
-      </p>
+		  <p class="row-order text-center"><i class="m-2 i-desc icon-user primary"></i>{{:weight}}</p>
     </div>
 	  <div class="col col-6 col-sm-6 col-lg c-start">
       <p class="row-phone text-center"><i class="m-2 i-desc icon-screen-smartphone warning"></i>{{:mobile_number}}</p>
@@ -208,39 +190,27 @@
 		  <p class="row-area text-center"><i class="m-2 i-desc os-icon os-icon-coins-4 warning"></i>{{currency:fee}}</p>
 	  </div>
 	  <div class="col col-6 col-sm-6 col-lg c-end">
-		  <p class="row-order text-center"><i class="m-2 i-desc icon-user primary"></i>{{:weight}}</p>
-    </div>
-    
-	  <div class="col-end col-12">
-      <p class="row-info-bottom"><i class="me-2 icon-plus"></i>{{fromNow:created_at}}</p>
-      <p class="row-info-bottom d-none d-sm-block"><i class="me-2 icon-envelope"></i>{{:email}}</p>
-      <p class="row-info-bottom">{{:gender}}</p>
-
       <!-- Split dropright button -->
-      <div class="btn-group dropright mb-2" key="{{:id}}">
-        <button type="button" class="btn btn-sm {{isAssigned:trainer_id}} btn-assignTrainer p-1 pe-3 ps-3 stop" style="text-transform: inherit;">
-          <i class="os-icon os-icon-ui-90 me-2"></i>
-          {{isTrainer:trainer_name}}
-        </button>
+      <div class="btn-group mb-2" key="{{:id}}" style="margin-left: auto;">
+        
         <button type="button" class="btn btn-sm btn-default p-1" data-mdb-toggle="dropdown" aria-expanded="false">
           <i class="icon-settings m-1"></i>
         </button>
 
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item edit-gymboy" href="#"><i class="os-icon os-icon-ui-49 me-2"></i> Edit</a></li>
-          <li><a class="dropdown-item btn-assignTrainer" href="#"><i class="os-icon os-icon-ui-90 me-2"></i> Assign Trainer</a></li>
+          <li><a class="dropdown-item" href="#"><i class="os-icon os-icon-ui-49 me-2"></i> Edit</a></li>
+          <li><a class="dropdown-item" href="#"><i class="os-icon os-icon-grid-10 me-2"></i> Deactivate</a></li>
           <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item {{trueStatus:is_active}} toggle-status-gymboy" href="#"><i class="os-icon os-icon-grid-10 me-2"></i> {{toggleStatus:is_active}}</a></li>
-          <!-- <li><a class="dropdown-item danger delete-gymboy" href="#"><i class="os-icon os-icon-ui-15 me-2"></i> Delete</a></li> -->
+          <li><a class="dropdown-item danger show-deletePopup" href="#"><i class="os-icon os-icon-ui-15 me-2"></i> Delete</a></li>
         </ul>
       
       </div>
       <!-- Split dropright button -->    
     </div>
+    
 	</div>
 </script>
 
-<!-- gym boy description -->
 <script id="userCardTmpl" type="text/html">
   <div class="card after">
     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
@@ -307,6 +277,9 @@
       <a class="pull-right btn btn-outline-default ms-2" href="javascript:void(0)">
         <i class="os-icon os-icon-x-circle me-2"></i> <b>Close</b>
       </a>
+      <a class="pull-left btn btn-outline-danger ms-2" href="javascript:void(0)">
+        <i class="fa fa-history me-2"></i> <b>Deactivate</b>
+      </a>
       <a class="pull-left btn btn-outline-primary ms-2" href="javascript:void(0)">
         <i class="os-icon os-icon-ui-49 me-2"></i> <b>Edit</b>
       </a>
@@ -319,8 +292,8 @@
   $("#p-header").load("./_partials/header.html", function () { $(this).children(':first').unwrap(); });
   $("#p-menu").load("./_partials/menu.html", function () { $(this).children(':first').unwrap(); });
   function pageActive() {
-    $("#page-name").text("Gymboy List");
-    $('#gymboy_list').addClass('active');
+    $("#page-name").text("Trainer List");
+    $('#trainer_list').addClass('active');
   }
 </script>
 
@@ -386,7 +359,7 @@
       let take = $('#filter-limit').val();
       let skip = (+$('#pageNo').text() - 1) * +take;
 
-      $.get(`${baseURL}/gymboy-list/${startDate}/${endDate}/${search}/${sort}/${skip}/${take}/${token}`, function (data) {
+      $.get(`${baseURL}/trainer-list/${startDate}/${endDate}/${search}/${sort}/${skip}/${take}/${token}`, function (data) {
         data = data.row
         $("#tbody").html($("#tbodyTmpl").render(data)); // render tmplt
         $('.page-desc').html(`Showing ${data.length} Entries`);
@@ -408,133 +381,84 @@
     }
 
     function initializeEvents () {
-      // assign trainer modal show
       $('.btn-assignTrainer').on('click', function (e) {
+        // e.stopPropagation();
         let userId = +$(this).closest('.origin-row').attr('key');
         $('#gymboy_name').text(` - ${userId}`);
-        $('#gymboy_id').val(userId); // inside form input
+        $('#userId').val(userId); // inside form input
         $('#assignTrainer').modal('show');
-      });
-
-      // deactivate gymboy
-      $('.toggle-status-gymboy').on('click', function (e) {
-        let gymboy_id = +$(this).closest('.origin-row').attr('key');
-        // submit order to rider
-        let formData = {
-          "gymboy_id": +gymboy_id
-        };
-        $.ajax({
-          type: "POST",
-          url: `${baseURL}/toggle-activation-gymboy`,
-          contentType: "application/json",
-          headers: {
-            "Authorization": `Bearer ${token}`
-          },
-          data: JSON.stringify(formData),
-          success: function (data) {
-            if (data.status) {
-              Swal.fire({ icon: 'success', title: 'Success!!!', showConfirmButton: false, timer: 1500 });
-              processOnChange();
-            } else {
-              Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
-            }
-          }
-        });
       });
     }
 
     // initial run #######################################################
     processOnChange();
     
-    // ################################################################################################## 
-    // Autocomplete #####################################################################################
-    // ################################################################################################## 
 
-    // assign trainer
-    $('.trainer').autocomplete({
-      minChars: 3,
-      delay: 500,
-      autofocus: true,
-      source: function (name, response) {
-        $.ajax({
-          type: 'GET',
-          url: `${baseURL}/trainer-by-name/${name.term ? name.term : 'All'}/0/10/${token}`,
-          beforeSend: function () {
-            $(".ui-menu").html('<li class="ui-menu-item"><div class="ui-menu-item-wrapper" tabindex="0"><img src="./image/searching.gif" width="25" />Searching...</div></li>')
-          },
-          success: function (data) {
-            if (data.row && data.row.length) {
-              response(data.row.map(el => {
-                return {
-                  label: ` ${el.mobile_number} : ${el.name}`,
-                  value: el.name,
-                  data: el
-                }
-              }));
-            } else {
-              response([{
-                label: `No Results Found!`,
-              }]);
-            }
-          }
-        });
-      },
-      select: function (e, { item }) {
-        let el = item.data;
-        $('#trainer_id').val(el.id);
-        $('.trainer').addClass('active');
-      },
-      focus: function (e, ui) { e.preventDefault(); }
-    })
-      .on('focus', function () {
-        $(this).autocomplete('search', $(this).val() == '' ? "All" : $(this).val());
-      })
-      .data("ui-autocomplete")._renderItem = function (ul, item) {
-        return $("<li></li>")
-          .data("item.autocomplete", item)
-          .append(`<div><img class="ui-menu-image mr-3" src='image/avatar.png' />${item.label}</div>`)
-          .appendTo(ul);
-      };
+    // autocomplete #####################################################################################
+    // $('.rider').autocomplete({
+    //   minChars: 3,
+    //   delay: 500,
+    //   autofocus: true,
+    //   source: [...(JSON.parse(localStorage.riders_moh_admin)).map(el => {
+    //     return {
+    //       category: 'Rider',
+    //       label: ` ${el.mobileNumber} : ${el.fullName}`,
+    //       value: el.fullName,
+    //       data: el
+    //     }
+    //   })],
+    //   select: function (e, { item }) {
+    //     let el = item.data;
+    //     $('#riderId').val(el.deliveryPersonId);
+    //     $('#bulkRiderId').val(el.deliveryPersonId);
+    //   },
+    //   focus: function (e, ui) { e.preventDefault(); }
+    // })
+    //   .on('focus', function () {
+    //     $(this).autocomplete('search', $(this).val() == '' ? " " : $(this).val());
+    //   })
+    //   .data("ui-autocomplete")._renderItem = function (ul, item) {
+    //     return $("<li></li>")
+    //       .data("item.autocomplete", item)
+    //       .append(`<div><img class="ui-menu-image mr-3" src='img/tawseel-rider.png' />${item.label}</div>`)
+    //       .appendTo(ul);
+    //   };
 
-    
-    // ################################################################################################## 
     // assign rider form submission #####################################################################
-    // ################################################################################################## 
     $('#form-assignTrainer').on('submit', function (e) {
       e.preventDefault();
 
       // submit order to rider
       let formData = {
-        "gymboy_id": +$('#gymboy_id').val(),
-        "trainer_id": +$('#trainer_id').val(),
-        "trainer_fee": +$('#trainer_fee').val()
+        "userId": +$('#userId').val(),
+        "trainerId": +$('#trainerId').val()
       };
 
-      $.ajax({
-        type: "POST",
-        url: `${baseURL}/assign-trainer`,
-        contentType: "application/json",
-        headers: {
-          "Authorization": `Bearer ${token}`
-        },
-        data: JSON.stringify(formData),
-        success: function (data) {
-          if (data.status) {
-            Swal.fire({ icon: 'success', title: 'Trainer Is Assigned Successfully!!!', showConfirmButton: false, timer: 1500 });
-            $('#form-assignTrainer').trigger("reset");
-            $('#assignTrainer').modal('hide');
-            processOnChange();
-          } else {
-            Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
-          }
-        }
-      });
+      console.log(formData);
+      return;
+
+      // $.ajax({
+      //   type: "POST",
+      //   url: `${baseURL}/Orders/AssignDeliveryPerson`,
+      //   contentType: "application/json",
+      //   headers: {
+      //     "Authorization": `Bearer ${token}`
+      //   },
+      //   data: JSON.stringify(formData),
+      //   success: function (data) {
+      //     if (data.message == "success") {
+      //       Swal.fire({ icon: 'success', title: 'Rider Is Assigned!!!', showConfirmButton: false, timer: 1500 });
+      //       $('#form-assignTrainer').trigger("reset");
+      //       $('#exampleModalCenter').modal('hide');
+      //       processOnChange();
+      //     } else {
+      //       Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
+      //     }
+      //     // due to same autocomplete ###############
+      //     $('#form-riderBulkAssign').trigger("reset");
+      //   }
+      // });
     });
-
-
-
-    
-
   });
 </script>
 

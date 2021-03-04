@@ -1,14 +1,19 @@
 // date formate
 $.views.converters("format", date => moment(date).format('MMM D, YYYY'));
 $.views.converters("day", date => moment(date).format('ddd - MMM D, YYYY'));
+$.views.converters("datetime", date => moment(date).format('MMM D, YYYY hh:mm A'));
 // date time from now
 $.views.converters("fromNow", date => moment(date).fromNow());
 // status
 $.views.converters("status", value => value == 'Yes' ? 'success' : 'danger' );
+$.views.converters("trueStatus", value => +value ? 'danger' : 'success' );
+$.views.converters("toggleStatus", value => +value ? 'Deactivate' : 'Activate' );
 // is ready
 $.views.converters("time", value => value ? moment(value).format('hh:mm:A') : '' );
 $.views.converters("isSelected", value => value ? '' : 'selected' );
+$.views.converters("isAssigned", value => value && value > 0 ? 'btn-success' : 'btn-danger' );
 $.views.converters("isActive", value => value ? 'active' : 'inactive' );
+$.views.converters("isTrainer", value => value ? value : 'Assign Trainer' );
 // yes or no
 $.views.converters("yesOrNo", value => value ? 'Yes' : 'No' );
 // currency
@@ -41,4 +46,4 @@ $.views.converters("btnToR4", x => x == 0 ? '<a class="btn btn-sm btn-tech pt-1 
 // typeToSpecify
 $.views.converters("typeToSpecify", x => +x ? `text` : `hidden`);
 // is present
-$.views.converters("isPresent", value => value ? '<span class="badge badge-success-inverted">Present</span>' : '<span class="badge badge-danger-inverted">Leaved</span>' );
+$.views.converters("isPresent", value => +value ? '<span class="badge badge-success-inverted">Present</span>' : '<span class="badge badge-danger-inverted">Leaved</span>' );
