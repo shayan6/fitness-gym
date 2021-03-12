@@ -8,10 +8,35 @@
   </div>
 
   <ul class="list-unstyled components" id="menu-list">
-    <!-- list prepend here -->
-    <li class="sidenav-link text-danger" id="log_out" onclick="logout()">
-      <a href="javascript:void(0)"><i class="os-icon os-icon-signs-11 me-3"></i> <b>Log Out</a>
+    <li class="sidenav-link index active" id="index">
+      <a href="index.html"><i class="os-icon os-icon-home me-3"></i> Home</a>
     </li>
+  
+    <li class="sidenav-link add_gymboy" id="add_gymboy">
+      <a href="add_gymboy.html"><i class="os-icon os-icon-user-plus me-3"></i> Add Gymboy</a>
+    </li>
+  
+    <li class="sidenav-link gymboy_list" id="gymboy_list">
+      <a href="gymboy_list.html"><i class="os-icon os-icon-users me-3"></i> Gymboy List</a>
+    </li>
+  
+    <li class="sidenav-link add_trainer" id="add_trainer">
+      <a href="add_trainer.html"><i class="os-icon os-icon-zap me-3"></i> Add Trainer</a>
+    </li>
+  
+    <li class="sidenav-link trainer_list" id="trainer_list">
+      <a href="trainer_list.html"><i class="os-icon os-icon-ui-93 me-3"></i> Trainer List</a>
+    </li>
+  
+    <li class="sidenav-link report" id="report">
+      <a href="report.html"><i class="os-icon os-icon-tasks-checked me-3"></i> Report</a>
+    </li>
+  
+      <!-- list prepend here -->
+      <li class="sidenav-link text-danger" id="log_out" onclick="logout()">
+        <a href="javascript:void(0)"><i class="os-icon os-icon-signs-11 me-3"></i> <b>Log Out</b></a><b>
+      </b></li><b>
+    </b>
   </ul>
 </nav>
 
@@ -27,12 +52,12 @@
     $('#user_role').text(userData.role);
     
     // create menu
-    $.get(`${baseURL}/user-access/${userData.role}/${token}`, function (data) {
-      if (data.status) {
-        $('#menu-list').prepend($('#menu-list-tmpl').render(data.row));
-        localStorage.gym_menu = JSON.stringify(data.row);
+    // $.get(`${baseURL}/user-access/${userData.role}/${token}`, function (data) {
+    //   if (data.status) {
+    //     $('#menu-list').prepend($('#menu-list-tmpl').render(data.row));
+    //     localStorage.gym_menu = JSON.stringify(data.row);
         pageActive();
-      }
-    });
+    //   }
+    // });
   });
 </script>
