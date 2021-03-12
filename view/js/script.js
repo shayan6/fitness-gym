@@ -7,7 +7,8 @@ window.dateranges = {
   'Last 30 Days': [moment().subtract(29, 'days'), moment()],
   'This Month': [moment().startOf('month'), moment().endOf('month')],
   'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
-  'Last Year': [moment().startOf('year'), moment().endOf('year')]
+  'This Year': [moment().startOf('year'), moment().endOf('year')],
+  'Last Year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
 };
 
 window.times = [
@@ -70,6 +71,17 @@ $(document).ready(function () {
       format: 'DD-MM-YYYY hh:mm A'
     }
   });
+
+  // click print 
+  $('#print').on('click', function () {
+    window.print();
+  });
+
+  // click to csv
+  $('#csv').on('click', function () {
+    exportTableToCSV('Gym-Report.csv');
+  });
+
 });
 
 // query selector
@@ -88,7 +100,6 @@ var getPosition = function (options) {
     navigator.geolocation.getCurrentPosition(resolve, reject, options);
   });
 }
-
 
 var feedbackstars = value =>  
          `<span class="fa fa-star ${value > 0 && 'checked'}"></span>
@@ -139,3 +150,49 @@ var customRenderMenu = function (ul, items) {
     });
   });
 };
+
+function currency (num) {
+ return num ? Number(num).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : '0.0';
+}
+
+function format (date) {
+  return date ? moment(date).format('MMM D, YYYY') : '';
+ }
+
+function exportTableToCSV(filename = 'download.csv', skipTotal = false) {
+  var csv = [];
+  var rows = document.querySelectorAll(".exportToCSV tr");
+  for (var i = 0; i < rows.length; i++) {
+      var row = [], cols = rows[i].querySelectorAll("td, th");
+      if ($(rows[i]).parent().attr('id') == 'total' && skipTotal)
+          continue;
+
+      for (var j = 0; j < cols.length; j++) 
+          row.push("\""+cols[j].innerText+"\"");
+
+      csv.push(row.join(","));        
+  }
+
+  // Download CSV file
+  downloadCSV(csv.join("\n"), filename);
+}    
+
+function downloadCSV(csv, filename) {
+  var csvFile;
+  var downloadLink;
+  // CSV file
+  console.log(csv);
+  csvFile = new Blob([csv], {type: "text/plain;charset=utf-8;"});
+  // Download link
+  downloadLink = document.createElement("a");
+  // File name
+  downloadLink.download = filename;
+  // Create a link to the file
+  downloadLink.href = window.URL.createObjectURL(csvFile);
+  // Hide download link
+  downloadLink.style.display = "none";
+  // Add the link to DOM
+  document.body.appendChild(downloadLink);
+  // Click download link
+  downloadLink.click();
+}

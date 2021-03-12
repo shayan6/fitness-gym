@@ -1,9 +1,9 @@
 // date formate
 $.views.converters("format", date => moment(date).format('MMM D, YYYY'));
 $.views.converters("day", date => moment(date).format('ddd - MMM D, YYYY'));
-$.views.converters("datetime", date => moment(date).format('MMM D, YYYY hh:mm A'));
+$.views.converters("datetime", date => date ? moment(date).format('MMM D, YYYY hh:mm A') : '');
 // date time from now
-$.views.converters("fromNow", date => moment(date).fromNow());
+$.views.converters("fromNow", date => date ? moment(date).fromNow() : '');
 // status
 $.views.converters("status", value => value == 'Yes' ? 'success' : 'danger' );
 $.views.converters("trueStatus", value => +value ? 'danger' : 'success' );

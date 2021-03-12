@@ -57,7 +57,7 @@ function utf8_encode_deep(&$input)
   }
 }
 
-function sendVerificationEmail($userEmail, $pin_code)
+function sendEmail($row)
 {
   // Create the Transport
   $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
@@ -68,13 +68,13 @@ function sendVerificationEmail($userEmail, $pin_code)
   $mailer = new Swift_Mailer($transport);
 
   // // Create a message
-  $message = (new Swift_Message('Verify Your Email Address'))
+  $message = (new Swift_Message('Payslip From Fitness Gym'))
     ->setFrom(['shayanshaikh.uae@gmail.com' => 'Shayan Shaikh'])
-    ->setTo($userEmail)
+    ->setTo($row->email)
     ->setBody('<!DOCTYPE html>
       <html>
         <head>
-          <title>My Medical Data</title>
+          <title>Fitness Gym</title>
           <meta charset="utf-8">
         </head>
         <body>
@@ -88,9 +88,7 @@ function sendVerificationEmail($userEmail, $pin_code)
                       <tr>
                         <td colspan="3" height="60" bgcolor="#ffffff" style="border-bottom:1px solid #eeeeee;padding-left:16px"
                           align="center">
-                          <img
-                            src="http://apps.techifycloud.com:29000/img/myMedical.jpg"
-                            width="140" height="41" style="display:block;width:250px;height:auto" class="CToWUd">
+                          Fitness Gym
                         </td>
                       </tr>
                       <tr><td colspan="3" height="20"></td></tr>
@@ -101,32 +99,71 @@ function sendVerificationEmail($userEmail, $pin_code)
                             <tbody>
                               <tr>
                                 <td colspan="3" style="text-align:center">
-                                  <span style="font-family:Helvetica,Arial,sans-serif;font-weight:bold;font-size:28px;line-height:28px;color:#333333">Welcome
-                                    to My Medical Data</span></td>
+                                  <span style="font-family:Helvetica,Arial,sans-serif;font-weight:bold;font-size:28px;line-height:28px;color:#333333">Payslip</span></td>
                               </tr>
                               <tr><td colspan="3" height="20"></td></tr>
                               <tr><td colspan="3" height="1" bgcolor="#eeeeee" style="font-size:1px;line-height:1px">&nbsp;</td></tr>
                               <tr><td colspan="3" height="20"></td></tr>
                               <tr>
                                 <td colspan="3">
-                                  <p style="font-family:Helvetica,Arial,sans-serif;color:#494747;line-height:140%;text-align:center">
-                                    Your Medical Data App Account Opening one-time password (OTP) is </p>
-                                  <table width="100%" style="width:100%">
-                                    <tbody>
-                                      <tr>
-                                        <td align="center">
-                                          <b> '.$pin_code.' </b> Please DO NOT share your OTP with anyone.
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                                <table class="table table-striped table-bordered exportToCSV" width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8">
+                                <thead>
+                                  <tr>
+                                    <td width="30%" style="text-align:center;">Earning</td>
+                                    <td width="20%" style="text-align:right;">Amount</td>
+                                    <td width="30%" style="text-align:center;">Deduction</td>
+                                    <td width="20%" style="text-align:right;">Amount</td>
+                                  </tr>
+                                </thead>
+                                <tbody class="border">
+                                  <!-- ITEMS HERE -->
+                                  <tr>
+                                    <td>Monthly Fee</td>
+                                    <td class="text-right monthly_fee">'.$row->monthly_fee.'</td>
+                                    <td>Late Charges</td>
+                                    <td class="text-right"> - 0.00 </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Trainer Fee</td>
+                                    <td class="text-right trainer_fee">'.$row->trainer_fee.'</td>
+                                    <td> </td>
+                                    <td> </td>
+                                  </tr>
+                                  <tr>
+                                    <td>Other Fee</td>
+                                    <td class="text-right other_fee">'.$row->other_fee.'</td>
+                                    <td> </td>
+                                    <td> </td>
+                                  </tr>
+                                  <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                  </tr>
+                                </tbody>
+                                <tbody class="border">
+                                  <tr>
+                                    <td><b>Total Fee</b></td>
+                                    <td class="text-right total_fee"><b>'.$row->total_fee.' </b></td>
+                                    <td><b>Total Deduction</b></td>
+                                    <td class="text-right"> - 0.0</td>
+                                  </tr>
+                                  <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                  </tr>
+                                </tbody>
+                              </table>
                                 </td>
                               </tr>
                               <tr><td colspan="3" height="20"></td></tr>
                               <tr>
                                 <td colspan="3" style="text-align:center">
                                   <span style="font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#cccccc">This message
-                                    was sent from MY Medical Data App</span>
+                                    was sent from Fitness Gym System</span>
                                 </td>
                               </tr>
                             </tbody>
@@ -315,11 +352,11 @@ $app->post('/assign-trainer', function (Request $req, Response $res, array $args
 $app->post('/toggle-activation-gymboy', function (Request $req, Response $res, array $args) {
   require_once('api/database.php');
   $post = $req->getParsedBody();
-  $gymboy_id = $post['gymboy_id'];
+  $userId = $post['userId'];
 
   $sql = "UPDATE `user` u
           SET u.`is_active` = IF(u.`is_active` = 1, 0, 1)
-          WHERE u.`id` = '$gymboy_id'";
+          WHERE u.`id` = '$userId'";
 
   $result = $conn->query($sql) ? array('Last Id' => $conn->insert_id) : false;
   $status = $result ? true : false; 
@@ -329,6 +366,28 @@ $app->post('/toggle-activation-gymboy', function (Request $req, Response $res, a
 
 });
 
+
+$app->post('/add-fee', function (Request $req, Response $res, array $args) {
+	require_once('api/database.php');
+  $post = $req->getParsedBody();
+  $gymboy_id = $post['gymboy_id'];
+  $payment_date = date('Y-m-d', strtotime($post['payment_date']));
+  $monthly_fee = $post['monthly_fee'];
+  $trainer_fee = $post['trainer_fee'];
+  $other_fee = $post['other_fee'];
+  $description = $post['description'];
+  
+  $sql = "INSERT INTO `gymboy_fee` (`gymboy_id`,`payment_date`, `monthly_fee`, `trainer_fee`, `other_fee`, `description`, `created_at`) 
+			    VALUES ('$gymboy_id', '$payment_date', '$monthly_fee', '$trainer_fee', '$other_fee', '$description', NOW())";
+  $result = $conn->query($sql);
+  $last_id = $conn->insert_id;
+
+  $message = $result ? 'Fees added successfully: '.$last_id : "<br>" . $conn->error;
+  $status = $result ? true : false;
+
+  return $res->withJson(array('status' => $status, 'row' => $result, 'message' => $message));
+
+});
 
 // #################################################################################################################
 // GET  DATA                #######################################################################################
@@ -366,6 +425,7 @@ $app->get('/gymboy-list/{startDate}/{endDate}/{search}/{sort}/{skip}/{take}/{tok
 	$rows = $db->fetch("SELECT 
                              *
                             , u.id
+                            , u.created_at
                             ,(SELECT u2.name FROM user u2 WHERE u2.id = tg.trainer_id) as trainer_name 
                       FROM `user` u
                       LEFT JOIN user_role r ON r.user_id = u.`id`
@@ -388,11 +448,37 @@ $app->get('/trainer-list/{startDate}/{endDate}/{search}/{sort}/{skip}/{take}/{to
 	$sort = $args['sort'] == 1 ? 'u.`joining_date` DESC' : 'u.`joining_date` ASC' ;
 	$skip = $args['skip'];
 	$take = $args['take'];
-	$rows = $db->fetch("SELECT *, u.id  FROM `user` u
+	$rows = $db->fetch("SELECT *, u.id 
+                              , (SELECT CONCAT(st1.`startTime`, ' - ', st1.`endTime`) FROM `trainer_shift` st1 WHERE st1.`trainer_id` = u.`id` AND st1.title = 'Shift1' LIMIT 1) AS shift_1
+                              , (SELECT CONCAT(st2.`startTime`, ' - ', st2.`endTime`) FROM `trainer_shift` st2 WHERE st2.`trainer_id` = u.`id` AND st2.title = 'Shift2' LIMIT 1) AS shift_2
+                      FROM `user` u
                       LEFT JOIN user_role r ON r.user_id = u.`id` 
                       WHERE (u.name LIKE '$search%' OR u.father_name LIKE '$search%' OR u.weight LIKE '$search%' OR u.email LIKE '$search%' OR u.address LIKE '$search%')
                       AND (u.joining_date BETWEEN '$startDate' AND '$endDate')
                       AND r.role_id = 2
+                      ORDER BY $sort LIMIT $skip, $take");
+	return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
+});
+
+
+$app->get('/fee-list/{startDate}/{endDate}/{search}/{sort}/{skip}/{take}/{token}', function (Request $request, Response $response, array $args) {
+	require_once('api/database.php');
+	require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $startDate = $args['startDate'];
+  $endDate = $args['endDate'];
+  $search = $args['search'] != 'All' ? $args['search'] : '';
+	$sort = $args['sort'] == 1 ? 'gf.`payment_date` DESC' : 'gf.`payment_date` ASC' ;
+	$skip = $args['skip'];
+	$take = $args['take'];
+	$rows = $db->fetch("SELECT *
+                            ,ROUND(monthly_fee + trainer_fee + other_fee, 2) as total_fee
+                            ,gf.id as payslipId
+                      FROM `gymboy_fee` gf
+                      LEFT JOIN user u ON u.`id` = gf.`gymboy_id` 
+                      WHERE (gf.description LIKE '$search%')
+                      AND (gf.payment_date BETWEEN '$startDate' AND '$endDate')
                       ORDER BY $sort LIMIT $skip, $take");
 	return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
 });
@@ -413,5 +499,105 @@ $app->get('/trainer-by-name/{search}/{skip}/{take}/{token}', function (Request $
   return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
 });
 
+$app->get('/gymboy-by-name/{search}/{skip}/{take}/{token}', function (Request $request, Response $response, array $args) {
+  require_once('api/database.php');
+  require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $search = $args['search'] != 'All' ? $args['search'] : '';
+  $skip = $args['skip'];
+  $take = $args['take'];
+  $rows = $db->fetch("SELECT u.* FROM `user` u
+                      LEFT JOIN user_role r ON r.user_id = u.`id` 
+                      WHERE (u.name LIKE '$search%' OR u.father_name LIKE '$search%' OR u.weight LIKE '$search%' OR u.email LIKE '$search%' OR u.address LIKE '$search%')
+                      AND r.role_id = 3
+                      LIMIT $skip, $take");
+  return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
+});
+
+$app->get('/payslip/{id}/{token}', function (Request $request, Response $response, array $args) {
+	require_once('api/database.php');
+	require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $id = $args['id'];
+	$rows = $db->fetchOneObj("SELECT u.*
+                      ,gf.monthly_fee
+                      ,gf.trainer_fee
+                      ,gf.other_fee
+                      ,ROUND(monthly_fee + trainer_fee + other_fee, 2) AS total_fee
+                      ,gf.payment_date
+                      ,gf.id as payslipId
+                    FROM `gymboy_fee` gf
+                    LEFT JOIN USER u ON u.`id` = gf.`gymboy_id` 
+                    WHERE gf.id = $id");
+	return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
+});
+
+$app->get('/dashboard-chart/{startDate}/{endDate}/{token}', function (Request $request, Response $response, array $args) {
+  require_once('api/database.php');
+	require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $startDate = $args['startDate'];
+  $endDate = $args['endDate'];
+
+  $rows = $db->fetch("SELECT 
+                        DATE_FORMAT(gf.`payment_date`, '%Y-%m-%d') AS 'day'
+                        , COUNT(gf.`id`) AS count_payments
+                        , SUM(gf.`monthly_fee` + gf.`other_fee` + gf.`trainer_fee`) AS amount_payments
+                      FROM `gymboy_fee` gf
+                      WHERE (gf.payment_date BETWEEN '$startDate' AND '$endDate')
+                      GROUP BY DAY");
+  return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
+});
+
+$app->get('/dashboard-report/{startDate}/{endDate}/{token}', function (Request $request, Response $response, array $args) {
+  require_once('api/database.php');
+	require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $startDate = $args['startDate'];
+  $endDate = $args['endDate'];
+
+  $rows = $db->fetchOneObj("SELECT 
+                          COUNT(gf.`id`) AS count_payments
+                        , SUM(gf.`monthly_fee` + gf.`other_fee` + gf.`trainer_fee`) AS amount_payments
+                        , (SELECT COUNT(u.id) FROM user u WHERE u.created_at BETWEEN '$startDate' AND '$endDate') as admissions
+                      FROM `gymboy_fee` gf
+                      WHERE (gf.payment_date BETWEEN '$startDate' AND '$endDate')");
+  return $response->withJson(array('status' => true, 'row' => $rows, 'message' => ''));
+});
+
+// email section ##############################################################################################################
+$app->get('/emailPayslip/{id}/{token}', function (Request $request, Response $response, array $args) {
+
+	require_once('api/database.php');
+	require('api/authentication.php');
+  if (!$auth->num_rows) return $response->withJson(array('status' => false, 'row' => [], 'message' => 'invalid token'));
+
+  $id = $args['id'];
+	$rows = $db->fetchOneObj("SELECT u.*
+                      ,gf.monthly_fee
+                      ,gf.trainer_fee
+                      ,gf.other_fee
+                      ,ROUND(monthly_fee + trainer_fee + other_fee, 2) AS total_fee
+                      ,gf.payment_date
+                      ,gf.id as payslipId
+                    FROM `gymboy_fee` gf
+                    LEFT JOIN USER u ON u.`id` = gf.`gymboy_id` 
+                    WHERE gf.id = $id");
+
+  // send email
+  if ($rows->email) {
+    $status = sendEmail($rows);
+    $message = $status ? 'Success' : 'Error In Sending';
+  } else {
+    $status = false;
+    $message = 'User Dont have any Email';
+  }
+
+  return $response->withJson(array('status' => $status, 'message' => $message));
+});
 
 $app->run();

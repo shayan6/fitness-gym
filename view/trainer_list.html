@@ -198,10 +198,9 @@
         </button>
 
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#"><i class="os-icon os-icon-ui-49 me-2"></i> Edit</a></li>
-          <li><a class="dropdown-item" href="#"><i class="os-icon os-icon-grid-10 me-2"></i> Deactivate</a></li>
+          <li><a class="dropdown-item edit-gymboy" href="#"><i class="os-icon os-icon-ui-49 me-2"></i> Edit</a></li>
           <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item danger show-deletePopup" href="#"><i class="os-icon os-icon-ui-15 me-2"></i> Delete</a></li>
+          <li><a class="dropdown-item {{trueStatus:is_active}} toggle-status-gymboy" href="#"><i class="os-icon os-icon-grid-10 me-2"></i> {{toggleStatus:is_active}}</a></li>
         </ul>
       
       </div>
@@ -267,6 +266,14 @@
           <h6>{{isPresent:is_active}}</h6>
         </div>
         <div class="col-6 mb-2">
+          <div class="p-t-30 db">Shift 1</div>
+          <h6>{{:shift_1}}</h6>
+        </div>
+        <div class="col-6 mb-2">
+          <div class="p-t-30 db">Shift 2</div>
+          <h6>{{:shift_2}}</h6>
+        </div>
+        <div class="col-6 mb-2">
           <div class="p-t-30 db">Other Details</div>
           <h6 class="danger">{{:other_details}}</h6>
         </div>
@@ -276,9 +283,6 @@
     <div class="card-body">
       <a class="pull-right btn btn-outline-default ms-2" href="javascript:void(0)">
         <i class="os-icon os-icon-x-circle me-2"></i> <b>Close</b>
-      </a>
-      <a class="pull-left btn btn-outline-danger ms-2" href="javascript:void(0)">
-        <i class="fa fa-history me-2"></i> <b>Deactivate</b>
       </a>
       <a class="pull-left btn btn-outline-primary ms-2" href="javascript:void(0)">
         <i class="os-icon os-icon-ui-49 me-2"></i> <b>Edit</b>
@@ -388,77 +392,38 @@
         $('#userId').val(userId); // inside form input
         $('#assignTrainer').modal('show');
       });
+      
+      // deactivate gymboy
+      $('.toggle-status-gymboy').on('click', function (e) {
+        e.stopPropagation();
+        let userId = +$(this).closest('.origin-row').attr('key');
+        // submit order to rider
+        let formData = {
+          "userId": +userId
+        };
+        $.ajax({
+          type: "POST",
+          url: `${baseURL}/toggle-activation-gymboy`,
+          contentType: "application/json",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          },
+          data: JSON.stringify(formData),
+          success: function (data) {
+            if (data.status) {
+              Swal.fire({ icon: 'success', title: 'Success!!!', showConfirmButton: false, timer: 1500 });
+              processOnChange();
+            } else {
+              Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
+            }
+          }
+        });
+      });
     }
 
     // initial run #######################################################
-    processOnChange();
-    
+    processOnChange();    
 
-    // autocomplete #####################################################################################
-    // $('.rider').autocomplete({
-    //   minChars: 3,
-    //   delay: 500,
-    //   autofocus: true,
-    //   source: [...(JSON.parse(localStorage.riders_moh_admin)).map(el => {
-    //     return {
-    //       category: 'Rider',
-    //       label: ` ${el.mobileNumber} : ${el.fullName}`,
-    //       value: el.fullName,
-    //       data: el
-    //     }
-    //   })],
-    //   select: function (e, { item }) {
-    //     let el = item.data;
-    //     $('#riderId').val(el.deliveryPersonId);
-    //     $('#bulkRiderId').val(el.deliveryPersonId);
-    //   },
-    //   focus: function (e, ui) { e.preventDefault(); }
-    // })
-    //   .on('focus', function () {
-    //     $(this).autocomplete('search', $(this).val() == '' ? " " : $(this).val());
-    //   })
-    //   .data("ui-autocomplete")._renderItem = function (ul, item) {
-    //     return $("<li></li>")
-    //       .data("item.autocomplete", item)
-    //       .append(`<div><img class="ui-menu-image mr-3" src='img/tawseel-rider.png' />${item.label}</div>`)
-    //       .appendTo(ul);
-    //   };
-
-    // assign rider form submission #####################################################################
-    $('#form-assignTrainer').on('submit', function (e) {
-      e.preventDefault();
-
-      // submit order to rider
-      let formData = {
-        "userId": +$('#userId').val(),
-        "trainerId": +$('#trainerId').val()
-      };
-
-      console.log(formData);
-      return;
-
-      // $.ajax({
-      //   type: "POST",
-      //   url: `${baseURL}/Orders/AssignDeliveryPerson`,
-      //   contentType: "application/json",
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   },
-      //   data: JSON.stringify(formData),
-      //   success: function (data) {
-      //     if (data.message == "success") {
-      //       Swal.fire({ icon: 'success', title: 'Rider Is Assigned!!!', showConfirmButton: false, timer: 1500 });
-      //       $('#form-assignTrainer').trigger("reset");
-      //       $('#exampleModalCenter').modal('hide');
-      //       processOnChange();
-      //     } else {
-      //       Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
-      //     }
-      //     // due to same autocomplete ###############
-      //     $('#form-riderBulkAssign').trigger("reset");
-      //   }
-      // });
-    });
   });
 </script>
 

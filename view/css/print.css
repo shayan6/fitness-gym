@@ -1,0 +1,42 @@
+/* print css */
+.print-only {
+  display: none;
+}
+
+.print-img {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+@media print {
+  .print-hide,
+  nav, #row-thead {
+    position: absolute;
+    display: none !important;
+  }
+
+  .container-sm {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .table-bordered td,
+  .table-bordered th {
+    font-size: 0.9rem !important;
+  }
+
+  .table-bordered td,
+  .table-bordered th {
+    padding: 0.3rem;
+  }
+
+  .print-only {
+    display: inherit;
+  }
+
+  .card, .card-body {
+    box-shadow: none;
+  }
+}

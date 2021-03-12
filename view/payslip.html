@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Medical History Data</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="stylesheet" type="text/css" href="css/mdb.min.css">
+  <link href="css/datepicker.min.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" type="text/css" href="css/sidebar.css">
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+  <link href="css/osfont.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="css/daterangepicker.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/print.css">
+  <link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css" />
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/render.min.js"></script>
+  <script type="text/javascript" src="js/moment.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+
+</head>
+
+<style>
+  .table-bordered thead td,
+  .table-bordered thead th {
+    color: #1266f1;
+    background-color: #f6f9fc;
+    font-size: 1rem;
+  }
+
+  .table-bordered td,
+  .table-bordered th {
+    padding: .3rem;
+  }
+
+  .table-striped>tbody>tr:nth-of-type(odd) {
+    --bs-table-accent-bg: rgb(255 255 255);
+  }
+</style>
+
+<body>
+  <div class="wrapper">
+    <!-- Sidebar -->
+    <div id="p-menu"></div>
+
+    <div class="content-i">
+      <!-- header -->
+      <div id="p-header"></div>
+
+      <div id="content">
+        <div class="container-sm">
+          <div class="thead">
+            <div class="row justify-content-md-center" id="row-thead">
+              <div class="col-4 col-sm-4">
+                <h4 class="mb-1">Payslip - <span class="payslipId"></span></h4>
+                <h6 class="m-0" id="thead-status"></h6>
+              </div>
+              <div class="col-8 col-sm-8">
+                <div class="pull-right">
+                  <a href="#" id="print" class="btn btn-outline-success"> <i class="icon-printer"></i>
+                    <b class="d-none d-sm-inline-block ms-1"> Print </b></a>
+                    <a href="#" id="email-slip" class="btn btn-outline-danger ms-2"> <i class="os-icon os-icon-email-2-at2"></i>
+                      <b class="d-none d-sm-inline-block ms-1"> Email Slip </b></a>
+                  <a href="#" id="refresh-list" class="btn btn-outline-warning ms-2"> <i class="icon-refresh"></i> <b
+                      class="d-none d-sm-inline-block ms-1"> Refresh
+                    </b></a>
+                </div>
+              </div>
+            </div>
+            <hr>
+          </div>
+          <div class="row mb-4">
+            <div class="col-sm-12 pt-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="text-center address-phone">
+                    <h3 class="m-0 p-0 t-caps"><b>Fitness Gym</b></h3>
+                    <p class="invoice-date t-caps mb-2"> Karachi, Pakistan </p>
+                    <h6 class="m-0 p-0"><b>Pay Slip Of Date: <span class="payment_date"></span></b></h6><br>
+                  </div>
+                  <table style="width: 100%; font-size:12px;">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="col-xs-12" style="padding-left: 0;">
+                            <div class="invoice-date"><b>Gymboy Id: <span class="gymboyid"></span></b></div>
+                            <div class="invoice-date">Gymboy Name: <span class="name"></span></div>
+                            <div class="invoice-date">Fee Paid To: <span class="fee_paid_to">Admin</span></div>
+                            <div class="invoice-date">Pay Date: <span class="payment_date"></span></div>
+                            <div class="invoice-date">Pay Slip Number: <span class="payslipId"></span> </div>
+                          </div>
+                        </td>
+                        <td style="text-align: right">
+                          <div class="text-right">
+                            <img src="image/logo.png" class="img-thumbnail" alt="Logo" style="width: 90px;">
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                  <table class="table table-striped table-bordered exportToCSV" width="100%" style="font-size: 9pt; border-collapse: collapse; " cellpadding="8">
+                    <thead>
+                      <tr>
+                        <td width="30%" style="text-align:center;">Earning</td>
+                        <td width="20%" style="text-align:right;">Amount</td>
+                        <td width="30%" style="text-align:center;">Deduction</td>
+                        <td width="20%" style="text-align:right;">Amount</td>
+                      </tr>
+                    </thead>
+                    <tbody class="border">
+                      <!-- ITEMS HERE -->
+                      <tr>
+                        <td>Monthly Fee</td>
+                        <td class="text-right monthly_fee">0.00 </td>
+                        <td>Late Charges</td>
+                        <td class="text-right"> - 0.00 </td>
+                      </tr>
+                      <tr>
+                        <td>Trainer Fee</td>
+                        <td class="text-right trainer_fee">0.00 </td>
+                        <td> </td>
+                        <td> </td>
+                      </tr>
+                      <tr>
+                        <td>Other Fee</td>
+                        <td class="text-right other_fee">0.00 </td>
+                        <td> </td>
+                        <td> </td>
+                      </tr>
+                      <tr>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                      </tr>
+                    </tbody>
+                    <tbody class="border">
+                      <tr>
+                        <td><b>Total Fee</b></td>
+                        <td class="text-right total_fee"><b>0.00 </b></td>
+                        <td><b>Total Deduction</b></td>
+                        <td class="text-right"><b> - 0.0 </b></td>
+                      </tr>
+                      <tr>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <hr>
+                  <div class="text-center"><b>Net Total: </b> <span class="total_fee"></span></div>
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="feeModal" tabindex="-1" role="dialog" aria-labelledby="feeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" style="box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Fee</h5>
+        </div>
+        <div class="modal-body">
+          <form id="form-add-fee" enctype="multipart/form-data" autocomplete="off">
+            <div class="row">
+              <div class="col-sm-12 col-lg-12">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-user me-3" data-toggle="tooltip" title="Gymboy"></i>
+                  <input type="text" class="form-control" id="gymboy" name="gymboy" required>
+                  <input type="hidden" class="form-control" id="gymboy_id" name="gymboy_id" required>
+                  <label class="form-label required" for="gymboy">Gymboy</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Payment Date"></i>
+                  <input class="form-control datetime active" id="payment_date" name="payment_date" required>
+                  <label class="form-label required" for="payment_date">Payment Date</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Monthly Fee"></i>
+                  <input type="number" class="form-control" id="monthly_fee" name="monthly_fee">
+                  <label class="form-label" for="monthly_fee">Monthly Fee</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Trainer Fee"></i>
+                  <input type="number" class="form-control" id="trainer_fee" name="trainer_fee">
+                  <label class="form-label" for="trainer_fee">Trainer Fee</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Other Fee"></i>
+                  <input type="number" class="form-control" id="other_fee" name="other_fee">
+                  <label class="form-label" for="other_fee">Other Fee</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-12">
+                <div class="form-outline form-group">
+                  <i class="pre-icon icon-pencil" data-toggle="tooltip" title="Description"></i>
+                  <textarea class="form-control" name="description" id="description"></textarea>
+                  <label class="form-label" for="description">Description</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div id="msg-view" class="alert" role="alert"></div>
+          <button type="button" class="btn btn-sm btn-danger" type="submit"
+            onclick="$('#form-add-fee').submit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+<!-- jquery load script -->
+<script>
+  $("#p-header").load("./_partials/header.html", function () { $(this).children(':first').unwrap(); });
+  $("#p-menu").load("./_partials/menu.html", function () { $(this).children(':first').unwrap(); });
+  function pageActive() {
+    $("#page-name").text("Payslip");
+    $('#report').addClass('active');
+  }
+</script>
+
+<script type="text/javascript" src="js/auth.js?v=2"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/mdb.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="js/render-converter.js"></script>
+<script src="js/jquery.autocomplete.min.js"></script>
+<script type="text/javascript" src="js/daterangepicker.min.js"></script>
+<script src="js/validator.min.js"></script>
+<script src="js/sweetalert2.min.js"></script>
+
+<script>
+
+  // function to show report of fee     
+  function processOnChange(id) {
+    $.get(`${baseURL}/payslip/${id}/${token}`, function (data) {
+      if (data.row) {
+        let {
+           payslipId
+          ,id // gymboyid
+          ,monthly_fee
+          ,name
+          ,payment_date
+          ,total_fee
+          ,trainer_fee
+        } = data.row
+        
+        $('.payslipId').text(payslipId);
+        $('.payment_date').text(format(payment_date));
+        $('.gymboyid').text(id);
+        $('.monthly_fee').text(currency(monthly_fee));
+        $('.name').text(name);
+        $('.payment_date').text(format(payment_date));
+        $('.total_fee').text(currency(total_fee));
+        $('.trainer_fee').text(currency(trainer_fee));
+      }
+    });
+  }
+  
+  if (queries && queries.payslipId) {
+    // initial run #######################################################
+    processOnChange(queries.payslipId);
+  } else {
+    window.open('report.html');
+  }
+  
+  // email slip
+  $('#email-slip').on('click', function (e) {
+    e.preventDefault();
+
+    Swal.fire({
+      text: "Are you sure you want to send payslip as an Email ?",
+      icon: "success",
+      showCancelButton: true,
+      buttonsStyling: false,
+      confirmButtonText: "Yes, send!",
+      cancelButtonText: "No, cancel",
+      customClass: {
+        confirmButton: "btn font-weight-bold btn-primary",
+        cancelButton: "btn font-weight-bold btn-default ms-4"
+      }
+    }).then(function (result) {
+      if (result.value) {
+        $.get(`${baseURL}/emailPayslip/${queries.payslipId}/${token}`, function (data) {
+          if (data.status) {
+            Swal.fire({ icon: 'success', title: 'Successfully Send!!!', showConfirmButton: false, timer: 1500 });
+          } else {
+            Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
+          }
+        });
+      }
+    });
+  });
+
+
+</script>
+
+
+</html>

@@ -137,6 +137,7 @@
     </div>
   </div>
   
+  <!-- assign trainer modal -->
   <div class="modal fade" id="assignTrainer" tabindex="-1" role="dialog" aria-labelledby="assignTrainerTitle"
   aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -173,6 +174,108 @@
             <div class="row">
               <div class="col-sm-12 col-lg-12 text-right">
                 <button class="btn btn-success submit" type="submit">Assign</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- edit gymboy modal -->
+  <div class="modal fade" id="editGymboy" tabindex="-1" role="dialog" aria-labelledby="editGymboyTitle"
+  aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">
+            Edit Gymboy <b id="gymboy_name"></b></h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- form here -->
+          <form id="edit-form-gymboy" enctype="multipart/form-data" autocomplete="off">
+            <div class="row">
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-user me-3" data-toggle="tooltip" title="Name"></i>
+                  <input type="text" class="form-control" id="edit_name" name="name" required>
+                  <label class="form-label required" for="name">Name</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-user me-3" data-toggle="tooltip" title="Father Name"></i>
+                  <input type="text" class="form-control" id="edit_father_name" name="father_name">
+                  <label class="form-label" for="father_name">Father Name</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon icon-screen-smartphone" data-toggle="tooltip" title="Mobile Number"></i>
+                  <input class="form-control" id="edit_mobile_number" isNumber name="mobile_number" minlength="7" required oninput="this.value=this.value.replace(/\D/g,'')">
+                  <label class="form-label required" for="mobile_number">Mobile Number</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Joining Date"></i>
+                  <input class="form-control datetime active" id="edit_joining_date" name="joining_date" required>
+                  <label class="form-label required" for="joining_date">Joining Date</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon os-icon os-icon-coins-4" data-toggle="tooltip" title="Fee"></i>
+                  <input class="form-control" id="edit_fee" name="fee" required oninput="this.value=this.value.replace(/\D/g,'')">
+                  <label class="form-label required" for="fee">Fee</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon icon-user" data-toggle="tooltip" title="Weight"></i>
+                  <input class="form-control" id="edit_weight" name="weight" required>
+                  <label class="form-label" for="weight">Weight</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon icon-envelope" data-toggle="tooltip" title="Email"></i>
+                  <input type="email" class="form-control" id="edit_email" name="email">
+                  <label class="form-label" for="email">Email</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-outline form-group">
+                  <i class="pre-icon icon-home" data-toggle="tooltip" title="Address"></i>
+                  <input type="text" class="form-control" id="edit_address" name="address">
+                  <label class="form-label" for="address">Address</label>
+                  <div class="help-block with-errors"></div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-6">
+                <div class="form-group">
+                  <i class="pre-icon icon-directions" data-toggle="tooltip" title="Gender"></i>
+                  <select class="form-select active" id="edit_gender" name="gender">
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-sm-12 col-lg-12">
+                <div class="form-outline form-group">
+                  <i class="pre-icon icon-pencil" data-toggle="tooltip" title="Other Details"></i>
+                  <input type="text" class="form-control" id="edit_other_details" name="other_details">
+                  <label class="form-label" for="other_details">Other Details</label>
+                  <div class="help-block with-errors"></div>
+                </div>
               </div>
             </div>
           </form>
@@ -303,12 +406,9 @@
       </div>
     </div>
     <hr>
-    <div class="card-body">
-      <a class="pull-right btn btn-outline-default ms-2" href="javascript:void(0)">
+    <div class="card-body origin-row" key="{{:id}}">
+      <a class="pull-right btn btn-outline-default ms-2" href="javascript:void(0)" data-mdb-dismiss="modal" aria-label="Close">
         <i class="os-icon os-icon-x-circle me-2"></i> <b>Close</b>
-      </a>
-      <a class="pull-left btn btn-outline-primary ms-2" href="javascript:void(0)">
-        <i class="os-icon os-icon-ui-49 me-2"></i> <b>Edit</b>
       </a>
     </div>
   </div>
@@ -398,6 +498,13 @@
           $('#profileModal').modal('show');
         });
 
+        $('.edit-gymboy').on('click', function (e) {
+          e.preventDefault(e)
+          let userId = +$(this).closest('.origin-row').attr('key');
+          fillEditGymBoyForm((data.filter(el => el.id == userId)));
+          $('#editGymboy').modal('show');
+        });
+
         $('.origin-row .col-end .btn-group').on('click', function (e) {
           e.stopPropagation();
         });
@@ -418,10 +525,10 @@
 
       // deactivate gymboy
       $('.toggle-status-gymboy').on('click', function (e) {
-        let gymboy_id = +$(this).closest('.origin-row').attr('key');
+        let userId = +$(this).closest('.origin-row').attr('key');
         // submit order to rider
         let formData = {
-          "gymboy_id": +gymboy_id
+          "userId": +userId
         };
         $.ajax({
           type: "POST",
@@ -440,6 +547,31 @@
             }
           }
         });
+      });
+    }
+
+    // fill edit form funcation ##########################################
+    function fillEditGymBoyForm (data) {
+      data = data[0];
+      console.log(data);
+      $('#edit_name').val(data.name);
+      $('#edit_father_name').val(data.father_name);
+      $('#edit_mobile_number').val(data.mobile_number);
+      $('#edit_fee').val(data.fee);
+      $('#edit_weight').val(data.weight);
+      $('#edit_email').val(data.email);
+      $('#edit_address').val(data.address);
+      $('#edit_gender').val(data.gender);
+      $('#edit_other_details').val(data.other_details);
+
+      $('#edit_joining_date').daterangepicker({
+        singleDatePicker: true,
+        startDate: moment(data.joining_date),
+        timePicker: true,
+        showDropdowns: true,
+        locale: {
+          format: 'DD-MM-YYYY hh:mm A'
+        }
       });
     }
 
@@ -531,9 +663,33 @@
       });
     });
 
+    // ################################################################################################## 
+    // edit-form-gymboy form submission #################################################################
+    // ##################################################################################################     
+    $('#edit-form-gymboy').on('submit', function (e) {
+      e.preventDefault();
+      if (!$('#edit-form-gymboy .form-group').hasClass('has-error')) {
+        // submit order to rider
+        var form = $(this)[0];
+        var formData = new FormData(form);
 
-
-    
+        $.ajax({
+          type: "POST",
+          url: `${baseURL}/edit-gymboy`,
+          contentType: false,  // tell jQuery not to set contentType
+          processData: false,  // tell jQuery not to process the data
+          data: formData,
+          success: function (data) {
+            if (data.status) {
+              Swal.fire({ icon: 'success', title: data.message, showConfirmButton: false, timer: 1500 });
+              $('#edit-form-gymboy').trigger("reset");
+            } else {
+              Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
+            }
+          }
+        });
+      }
+    });
 
   });
 </script>

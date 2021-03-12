@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Medical History Data</title>
+  <title>Gym</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, user-scalable=no">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -18,12 +18,113 @@
   <link rel="stylesheet" type="text/css" href="css/daterangepicker.min.css" />
   <link rel="stylesheet" type="text/css" href="css/style.css">
   <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/sweetalert2.min.css" />
 
   <script type="text/javascript" src="js/jquery.min.js"></script>
   <script type="text/javascript" src="js/render.min.js"></script>
+  <script type="text/javascript" src="js/moment.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
 
 </head>
+
+<style>
+  /* btn dashboard */
+  .btn-box {
+    display: inline-block;
+    width: 100%;
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 1.5rem;
+    border-radius: .25rem;
+    box-shadow: 0 10px 20px 0 rgb(0 0 0 / 5%);
+    color: #444;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+  }
+
+  .btn-box i {
+    font-size: 3.43rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    transition: 0.2s linear;
+  }
+
+  .btn-box .description {
+    text-transform: none;
+    font-size: 1.1rem;
+    letter-spacing: 0px;
+    color: rgba(0, 0, 0, 0.4);
+    transition: 0.2s linear;
+  }
+
+  .btn-box:hover i,
+  .btn-box:hover .heading,
+  .btn-box:hover .description {
+    transform: scale(1.3);
+    color: #ffffff;
+  }
+
+  .btn-box::before {
+    content: "";
+    position: absolute;
+    width: 178%;
+    height: 210%;
+    background: #1565c0;
+    transform: rotate(45deg);
+    left: -110%;
+    top: 100%;
+  }
+
+  .btn-box:hover::before {
+    animation: aaa 0.7s 1;
+    top: -10%;
+    left: -10%;
+  }
+
+  @keyframes aaa {
+    0% {
+      left: -110%;
+      top: 90%;
+    }
+
+    50% {
+      left: 10%;
+      top: -30%;
+    }
+
+    100% {
+      top: -10%;
+      left: -10%;
+    }
+  }
+
+  .box .sub-box {
+    border: 1px solid #dae6ea;
+    box-shadow: none;
+  }
+
+  .sub-box .heading {
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 17px;
+    letter-spacing: 2px;
+    font-weight: 100;
+  }
+
+  .sub-box #net_worth {
+    font-size: 35px;
+    font-weight: bolder;
+    margin: 0;
+  }
+  
+  .number-box {
+    font-size: 1.5rem !important;
+    font-weight: bolder;
+  }
+
+</style>
 
 <body>
   <div class="wrapper">
@@ -35,8 +136,78 @@
       <div id="p-header"></div>
 
       <div id="content">
-        <div class="container-sm item-center">
-            
+        <div class="container-sm">
+          <div class="thead">
+            <div class="row justify-content-md-center" id="row-thead">
+              <div class="col-4 col-sm-4">
+                <h4 class="mb-1">Dashboard</h4>
+                <h6 class="m-0" id="thead-status"></h6>
+              </div>
+              <div class="col-8 col-sm-8">
+                <div class="pull-right">
+                  <a href="#" id="refresh-list" class="btn btn-outline-warning ms-2"> <i class="icon-refresh"></i> <b
+                      class="d-none d-sm-inline-block ms-1"> Refresh </b></a>
+                  <a href="#" id="filter-btn" class="btn btn-outline-secondary ms-2"> <i class="fa fa-filter"></i> <b
+                      class="d-none d-sm-inline-block ms-1"> Filter </b></a>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div id="filter-table">
+              <div class="row">
+                <div class="col-12 col-sm-12 col-lg-12">
+                  <div class="form-outline form-group">
+                    <i class="pre-icon os-icon os-icon-calendar" data-toggle="tooltip" title="Date"></i>
+                    <input class="form-control dated active" id="filter-date" name="filter-date">
+                    <label class="form-label" for="filter-date">Date</label>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <!-- Custom Info Boxes By shayan shaikh -->
+            <div class="col-md-4">
+              <a class="btn-box green box-up"
+                href="#">
+                <div class="number-box heading" id="fee_amount">0</div>
+                <div class="description">
+                  Fees Amount
+                </div>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <!-- /.admin/create_account -->
+              <a class="btn-box box-up col-md-4"
+                href="#">
+                <div class="number-box heading" id="fee_count">0</div>
+                <div class="description">
+                  Fees Count
+                </div>
+              </a>
+            </div>
+            <div class="col-md-4">
+              <!-- /.admin/accounts -->
+              <a class="btn-box red box-up col-md-4"
+                href="#">
+                <div class="number-box heading" id="new_admission">0</div>
+                <div class="description">
+                  New Admissions
+                </div>
+              </a>
+            </div>
+            <!-- /.user/general -->
+          </div>
+          <div class="row mb-4">
+            <div class="col-sm-12 pt-4">
+              <div class="card">
+                <div class="card-body">
+                  <canvas id="kpi" height="120px"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -48,13 +219,12 @@
 <script>
   $("#p-header").load("./_partials/header.html", function () { $(this).children(':first').unwrap(); });
   $("#p-menu").load("./_partials/menu.html", function () { $(this).children(':first').unwrap(); });
-  function pageActive () {
+  function pageActive() {
     $("#page-name").text("Home");
     $('#index').addClass('active');
   }
 </script>
 
-<script type="text/javascript" src="js/moment.min.js"></script>
 <script type="text/javascript" src="js/auth.js?v=2"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/popper.min.js"></script>
@@ -64,5 +234,112 @@
 <script src="js/jquery.autocomplete.min.js"></script>
 <script type="text/javascript" src="js/daterangepicker.min.js"></script>
 <script src="js/validator.min.js"></script>
+<script src="js/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script>
+
+  // dated ##############################################################
+  $('.dated').daterangepicker({
+    showDropdowns: true,
+    startDate: moment().startOf('year'),
+    endDate: moment(),
+    ranges: window.dateranges,
+    locale: {
+      format: 'DD-MM-YYYY'
+    }
+  }, function (start, end, label) {
+    processOnChange();
+  });
+
+  // function to show report of fee #####################################
+  function processOnChange() {
+    let startDate = moment($("#filter-date").data('daterangepicker').startDate._d).format('YYYY-MM-DD 00:00:00');
+    let endDate = moment($("#filter-date").data('daterangepicker').endDate._d).format('YYYY-MM-DD 23:59:59');
+
+    
+    $.get(`${baseURL}/dashboard-report/${startDate}/${endDate}/${token}`, function (data) {
+      data = data.row;
+      $('#fee_amount').text(currency(data.amount_payments));
+      $('#fee_count').text(data.count_payments);
+      $('#new_admission').text(data.admissions);
+    });
+    
+    $.get(`${baseURL}/dashboard-chart/${startDate}/${endDate}/${token}`, function (data) {
+      data = data.row;
+      var ctx = document.getElementById('kpi').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          datasets: [{
+            label: 'Line Dataset',
+            fill: false,
+            backgroundColor: "white",
+            borderColor: "#fc9258",
+            borderWidth: 2,
+            label: '# Of Payments',
+            yAxisID: 'count',
+            data: data.map(el => el.count_payments),
+
+            // Changes this dataset to become a line
+            type: 'line'
+          }, {
+            label: 'Bar Dataset',
+            borderColor: "white",
+            backgroundColor: "#01c368",
+            // borderWidth: 2,
+            // hoverBorderWidth: 0,
+            label: 'Payments Value',
+            yAxisID: 'value',
+            data: data.map(el => el.amount_payments)
+          }],
+          labels: data.map(el => moment(el.day).format('DD-MMM'))
+        },
+        options: {
+          responsive: true,
+          legend: {
+            display: true
+          },
+          title: {
+            display: false
+          },
+          tooltips: {
+            mode: 'index',
+            intersect: false
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
+          scales: {
+            xAxes: [{
+              gridLines: {
+                display: false,
+                drawBorder: false //<- set this
+              },
+            }],
+            yAxes: [{
+              id: 'value',
+              type: 'linear',
+              position: 'left',
+            }, {
+              id: 'count',
+              type: 'linear',
+              position: 'right',
+              ticks: {
+                min: 0
+              }
+            }]
+          }
+        }
+      });
+    });
+  }
+
+  // initial run #######################################################
+  processOnChange();
+
+</script>
+
 
 </html>

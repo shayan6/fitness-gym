@@ -185,28 +185,31 @@
   
   $(document).ready(() => {
     
+    $('#form-gymboy').validator();
+
     $('#form-gymboy').on('submit', function (e) {
       e.preventDefault();
+      if (!$('#form-gymboy .form-group').hasClass('has-error')) {
+        // submit order to rider
+        var form = $(this)[0];
+        var formData = new FormData(form);
 
-      // submit order to rider
-      var form = $(this)[0];
-      var formData = new FormData(form);
-
-      $.ajax({
-        type: "POST",
-        url: `${baseURL}/add-gymboy`,
-        contentType: false,  // tell jQuery not to set contentType
-        processData: false,  // tell jQuery not to process the data
-        data: formData,
-        success: function (data) {
-          if (data.status) {
-            Swal.fire({ icon: 'success', title: data.message, showConfirmButton: false, timer: 1500 });
-            $('#form-gymboy').trigger("reset");
-          } else {
-            Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
+        $.ajax({
+          type: "POST",
+          url: `${baseURL}/add-gymboy`,
+          contentType: false,  // tell jQuery not to set contentType
+          processData: false,  // tell jQuery not to process the data
+          data: formData,
+          success: function (data) {
+            if (data.status) {
+              Swal.fire({ icon: 'success', title: data.message, showConfirmButton: false, timer: 1500 });
+              $('#form-gymboy').trigger("reset");
+            } else {
+              Swal.fire({ icon: 'error', title: 'Something Went Wrong', showConfirmButton: false, timer: 3000 });
+            }
           }
-        }
-      });
+        });
+      }
     });
   });
 </script>
