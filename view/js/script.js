@@ -1,5 +1,5 @@
 // base url on top
-const baseURL = 'http://localhost/gym/index.php';
+const baseURL = '/gym/index.php';
 window.dateranges = {
   'Today': [moment(), moment()],
   'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
