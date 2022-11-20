@@ -61,15 +61,15 @@ function sendEmail($row)
 {
   // Create the Transport
   $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
-    ->setUsername('shayanshaikh.uae@gmail.com')
-    ->setPassword('fouhhnvwvfulziuj');
+    ->setUsername('/*email here*/')
+    ->setPassword('/*passowrd here*/');
 
   // Create the Mailer using your created Transport
   $mailer = new Swift_Mailer($transport);
 
   // // Create a message
   $message = (new Swift_Message('Payslip From Fitness Gym'))
-    ->setFrom(['shayanshaikh.uae@gmail.com' => 'Shayan Shaikh'])
+    ->setFrom(['/*email here*/' => 'Shayan Shaikh'])
     ->setTo($row->email)
     ->setBody('<!DOCTYPE html>
       <html>
