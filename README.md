@@ -43,7 +43,8 @@ Advanced encryption algorithms are used to secure your data.
 
 ## YouTube Video
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tkK-DU7SoAc" frameborder="0" allowfullscreen></iframe>
+[![Gym Management System Demo](http://img.youtube.com/vi/tkK-DU7SoAc/0.jpg)](http://www.youtube.com/watch?v=tkK-DU7SoAc "Gym Management System Demo")
+
 
 ---
 Feel free to contact the developer for any queries or suggestions.
