@@ -39,7 +39,7 @@ Advanced encryption algorithms are used to secure your data.
 
 ## Source Code
 
-- Github: [fitness-gy...](https://github.com/shayan6/fitness-gy...) (Incomplete link, please provide complete link if available)
+- Github: [fitness-gym](https://github.com/shayan6/fitness-gym) (Incomplete link, please provide complete link if available)
 
 ## YouTube Video
 
