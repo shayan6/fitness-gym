@@ -28,6 +28,19 @@ Accessible on any device at anytime, anywhere.
 
 Advanced encryption algorithms are used to secure your data.
 
+## Database Structure
+
+The database structure is provided in the `gym.sql` file. It includes tables for managing gym members, trainers, payments, and more. Please refer to the file for detailed information.
+
+## Sample User for Login
+
+A sample user is provided for login:
+
+- Username: `admin`
+- Password (MD5 Format): `d033e22ae348aeb5660fc2140aec35850c4da997` (corresponding to the password `password`)
+
+Feel free to modify the database structure and add more users as needed.
+
 ## Developer
 
 **Shayan Shaikh**
